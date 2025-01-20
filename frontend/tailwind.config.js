@@ -5,7 +5,19 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        nohemi: ['Nohemi', 'sans-serif'],
+      },
+      fontWeight: {
+        light: 300,
+        normal: 400,
+        medium: 500,
+        semibold: 600,
+        bold: 700,
+        black: 900,
+      },
+    },
   },
   plugins: [],
 }
