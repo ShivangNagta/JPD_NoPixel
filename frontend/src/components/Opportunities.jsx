@@ -5,7 +5,7 @@ export default function Opportunities() {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="min-h-screen text-white px-4 py-16">
+    <div className="min-h-screen text-white px-4 py-16 cursor-default">
       <div className="max-w-7xl mx-auto text-center mb-20">
         <p className="text-lg mb-4 flex items-center justify-center gap-2">
           <span className="text-purple-400">✨</span>

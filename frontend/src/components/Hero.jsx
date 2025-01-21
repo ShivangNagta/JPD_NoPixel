@@ -56,9 +56,7 @@ function Element() {
       <div
         className="absolute left-[25%] bottom-[20%] w-[40%] h-[50%] bg-zinc-900/50 border-zinc-800 backdrop-blur-sm rounded-lg overflow-hidden"
         style={{
-          transform: `translate(${mousePosition.x * -15}px, ${
-            mousePosition.y * -15
-          }px)`,
+          transform: `translate(${mousePosition.x * -5}px, ${mousePosition.y * -5}px)`,
           border: "2px solid #666666",
         }}
       >
@@ -67,7 +65,6 @@ function Element() {
           alt="Guitar"
           className="h-full w-full object-cover z-0"
         />
-
         <div className="absolute top-0 w-full h-full p-4 z-10 text-white mx-auto flex flex-col justify-center items-start">
           <div className="flex flex-col gap-4 text-center">
             <div>
@@ -119,9 +116,7 @@ function Element() {
       <div
         className="absolute right-[5%] top-[20%] w-[40%] h-[50%] bg-zinc-900 border-zinc-800 rounded-lg shadow-lg"
         style={{
-          transform: `translate(${mousePosition.x * 20}px, ${
-            mousePosition.y * 20
-          }px)`,
+          transform: `translate(${mousePosition.x * 7}px, ${mousePosition.y * 7}px)`,
           background: "linear-gradient(135deg, #444444, #222222)",
           border: "2px solid #555555",
         }}

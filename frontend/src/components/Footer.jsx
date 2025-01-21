@@ -18,7 +18,7 @@ const Footer = () => {
     <footer className="w-full h-full bg-[#EBEBEB]">
       <div className="w-full">
         <div className="grid gap-8 grid-cols-3 px-16">
-          <div className="space-y-4">
+          <div className="space-y-4 cursor-default">
             <p className="text-4xl text-muted-foreground text-black font-bold">
                Workify
             </p>
@@ -29,7 +29,7 @@ const Footer = () => {
             </p>
           </div>
           <div className="space-y-4">
-            <h3 className="text-3xl font-bold">About</h3>
+            <h3 className="text-3xl font-bold cursor-default">About</h3>
             <nav className="flex flex-col space-y-2 text-[#838383] font-semibold text-xl">
               <FooterButton text="Contact" link="/contact" />
               <FooterButton text="Blog" link="/blog" />
@@ -38,7 +38,7 @@ const Footer = () => {
             </nav>
           </div>
           <div className="space-y-4">
-            <h3 className="text-3xl font-bold">Company</h3>
+            <h3 className="text-3xl font-bold cursor-default">Company</h3>
             <nav className="flex flex-col space-y-2 text-[#838383] font-semibold text-xl">
               <FooterButton text="Press" link="/press" />
               <FooterButton text="Brand Assets" link="/brand-assets" />

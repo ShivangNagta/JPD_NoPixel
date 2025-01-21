@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import heheImage from '../assets/hehe.jpg';
 import Hero from './Hero';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -31,7 +30,7 @@ function Slate() {
   return (
     <div
       style={{ perspective: '1000px' }}
-      className="w-full flex justify-center z-10"
+      className="w-full flex justify-center z-10 cursor-default"
     >
       <div
         ref={slateRef}
