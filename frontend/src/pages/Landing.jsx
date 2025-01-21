@@ -7,8 +7,12 @@ import Featured from "../components/Featured";
 import ScrollText from "../components/ScrollText";
 import Opportunities from "../components/Opportunities";
 import ScrollAnimation from "../components/ScrollAnimation";
+import { useNavigate } from "react-router-dom";
 
 function Landing() {
+
+  const navigate = useNavigate();
+  
   const [searchIcon, setSearchIcon] = useState("/src/assets/searchWhite.svg");
   return (
     <div className="relative w-full min-h-screen bg-black flex flex-col">
@@ -30,6 +34,7 @@ function Landing() {
           className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD]"
           onMouseEnter={() => setSearchIcon("/src/assets/searchBlack.svg")}
           onMouseLeave={() => setSearchIcon("/src/assets/searchWhite.svg")}
+          onClick={() => navigate("/search")} // Navigate to the '/search' page
         >
           <img
             src={searchIcon}

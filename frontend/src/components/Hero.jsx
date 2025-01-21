@@ -56,7 +56,9 @@ function Element() {
       <div
         className="absolute left-[25%] bottom-[20%] w-[40%] h-[50%] bg-zinc-900/50 border-zinc-800 backdrop-blur-sm rounded-lg overflow-hidden"
         style={{
-          transform: `translate(${mousePosition.x * -5}px, ${mousePosition.y * -5}px)`,
+          transform: `translate(${mousePosition.x * -5}px, ${
+            mousePosition.y * -5
+          }px)`,
           border: "2px solid #666666",
         }}
       >
@@ -116,13 +118,15 @@ function Element() {
       <div
         className="absolute right-[5%] top-[20%] w-[40%] h-[50%] bg-zinc-900 border-zinc-800 rounded-lg shadow-lg"
         style={{
-          transform: `translate(${mousePosition.x * 7}px, ${mousePosition.y * 7}px)`,
+          transform: `translate(${mousePosition.x * 7}px, ${
+            mousePosition.y * 7
+          }px)`,
           background: "linear-gradient(135deg, #444444, #222222)",
           border: "2px solid #555555",
         }}
       >
-        <div className="space-y-6 p-6 h-full">
-          <div className="h-[20%] flex items-center text-zinc-400 text-sm">
+        <div className="grid grid-rows-[1fr_2fr_3fr] gap-2 p-2 h-full">
+          <div className="flex items-center text-zinc-400 text-sm">
             <svg
               className="w-8 h-8 mr-2 mb-1"
               viewBox="0 0 24 24"
@@ -136,12 +140,11 @@ function Element() {
             </svg>
             <span className="font-medium text-2xl">JANUARY 2023</span>
           </div>
-          <div className="h-[20%] space-y-2">
+          <div className="space-y-2">
             <h1 className="text-5xl font-bold text-zinc-100">5.24k</h1>
             <p className="text-zinc-400 text-xl">Views on your Profile.</p>
           </div>
-
-          <div className="grid grid-cols-9 gap-2 h-[40%]">
+          <div className="flex gap-2">
             {[0.6, 0.8, 0.4, 1, 0.5, 0.3, 0.7, 0.4, 0.8].map((height, i) => (
               <div
                 key={i}
