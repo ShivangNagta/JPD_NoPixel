@@ -8,7 +8,6 @@ import ScrollText from "../components/ScrollText";
 import Opportunities from "../components/Opportunities";
 import ScrollAnimation from "../components/ScrollAnimation";
 import { useNavigate } from "react-router-dom";
-
 function Landing() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(true);

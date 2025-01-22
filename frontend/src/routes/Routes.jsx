@@ -6,9 +6,10 @@ import Signup from "../components/Auth/Signup";
 import ClientDashboard from "../components/Client/ClientDashboard";
 import FreelancerDashboard from "../components/Freelancer/FreelancerDashboard";
 import Profile from "../components/profile/profile";
-import SearchPage from '../pages/SearchPage';
+import SearchPage from "../pages/searchPage";
 import Landing from '../pages/Landing';
 import CandidateProfile from '../pages/CandidatesPage';
+import CandidateEditPage from "../pages/CandidatesEditPage";
 
 
 
