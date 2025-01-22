@@ -12,7 +12,7 @@ import {
 import { Card, CardContent } from "../components/card";
 import { Search, SlidersHorizontal, Moon, Sun, X } from "lucide-react";
 import { useDarkMode } from "../components/DarkModeContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Dummy data for candidates
 const candidates = [

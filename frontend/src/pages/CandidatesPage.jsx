@@ -4,10 +4,13 @@ import { Button } from "../components/button";
 import { Badge } from "../components/badge";
 import { Card, CardContent } from "../components/card";
 import { useDarkMode } from "../components/DarkModeContext";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Edit } from "lucide-react";
+import { Link } from "react-router-dom";
 
 // Mock authentication (in a real app, this would be handled by a proper auth system)
-const isRecruiter = true;
+const isRecruiter = false
+const isCandidate = true
+const currentUserId = 1 // Assuming the logged-in user is candidate with ID 1
 
 const candidates = [
   {
@@ -83,6 +86,8 @@ const CandidateProfile = () => {
     );
   }
 
+  const canEdit = isCandidate && currentUserId === candidate.id;
+
   return (
     <div
       className={`min-h-screen ${
@@ -92,6 +97,14 @@ const CandidateProfile = () => {
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Candidate Profile</h1>
+          <div className="flex gap-2">
+            {canEdit && (
+              <Link to={`/profile/${candidate.id}/edit`}>
+                <Button variant="outline" size="icon">
+                  <Edit className="h-[1.2rem] w-[1.2rem]" />
+                </Button>
+              </Link>
+            )}
           <Button
             variant="outline"
             size="icon"
@@ -104,6 +117,7 @@ const CandidateProfile = () => {
               <Moon className="h-[1.2rem] w-[1.2rem]" />
             )}
           </Button>
+          </div>
         </div>
         <Card
           className={`hover:shadow-lg transition-shadow duration-200 ${
