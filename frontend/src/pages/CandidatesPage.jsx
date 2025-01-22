@@ -4,7 +4,7 @@ import { Button } from "../components/button";
 import { Badge } from "../components/badge";
 import { Card, CardContent } from "../components/card";
 import { useDarkMode } from "../components/DarkModeContext";
-import { Moon, Sun, Edit } from "lucide-react";
+import { Moon, Sun, Edit, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const isRecruiter = false
@@ -70,8 +70,14 @@ const CandidateProfile = () => {
   const candidate = candidates.find((c) => c.id == mail);
   const { darkMode, toggleDarkMode } = useDarkMode();
 
+  const handleSignOut = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("authToken");
+    console.log('User signed out');
+  };
+
   useEffect(() => {
-    setID(localStorage.getItem("userID"));
+    setID(localStorage.getItem("userId"));
     console.log(mail);
   }, []);
 
@@ -102,13 +108,6 @@ const CandidateProfile = () => {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold">Candidate Profile</h1>
           <div className="flex gap-2">
-            {canEdit && (
-              <Link to={`/profile/${candidate.id}/edit`}>
-                <Button variant="outline" size="icon">
-                  <Edit className="h-[1.2rem] w-[1.2rem]" />
-                </Button>
-              </Link>
-            )}
           <Button
             variant="outline"
             size="icon"
@@ -121,6 +120,20 @@ const CandidateProfile = () => {
               <Moon className="h-[1.2rem] w-[1.2rem]" />
             )}
           </Button>
+            {canEdit && (
+              <Link to={`/profile/${candidate.id}/edit`}>
+                <Button variant="outline" size="icon">
+                  <Edit className="h-[1.2rem] w-[1.2rem]" />
+                </Button>
+              </Link>
+            )}
+            {canEdit && (
+              <Link to={`/`}>
+                <Button variant="outline" size="icon" onClick={handleSignOut}>
+                  <LogOut className="h-[1.2rem] w-[1.2rem]" />
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
         <Card
