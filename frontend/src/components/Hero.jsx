@@ -35,24 +35,23 @@ function Element() {
   return (
     <div className="w-full h-full">
       <div className="absolute top-[10%] left-[15%] z-10">
-        <h1
-          className="text-6xl font-medium text-white"
-          style={{
-            textShadow: "5px 5px 20px rgba(0, 0, 0, 0.8)",
-          }}
-        >
-          Its just the
-        </h1>
-        <h1
-          className="text-7xl font-bold text-purple-600"
-          style={{
-            textShadow: "5px 5px 20px rgba(0, 0, 0, 0.8)",
-          }}
-        >
-          Beginning!
-        </h1>
-        <span></span>
-      </div>
+  <h1
+    className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium text-white"
+    style={{
+      textShadow: "5px 5px 20px rgba(0, 0, 0, 0.8)",
+    }}
+  >
+    Its just the
+  </h1>
+  <h1
+    className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-purple-600"
+    style={{
+      textShadow: "5px 5px 20px rgba(0, 0, 0, 0.8)",
+    }}
+  >
+    Beginning!
+  </h1>
+</div>
       <div
         className="absolute left-[25%] bottom-[20%] w-[40%] h-[50%] bg-zinc-900/50 border-zinc-800 backdrop-blur-sm rounded-lg overflow-hidden"
         style={{

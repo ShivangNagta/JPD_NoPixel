@@ -15,7 +15,7 @@ function Landing() {
   
   const [searchIcon, setSearchIcon] = useState("/src/assets/searchWhite.svg");
   return (
-    <div className="relative w-full min-h-screen bg-black flex flex-col">
+    <div className="relative w-full min-h-screen bg-black flex flex-col font-labil">
       <CursorFollower />
       <img
         src={Background}
@@ -34,7 +34,7 @@ function Landing() {
           className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD]"
           onMouseEnter={() => setSearchIcon("/src/assets/searchBlack.svg")}
           onMouseLeave={() => setSearchIcon("/src/assets/searchWhite.svg")}
-          onClick={() => navigate("/search")} // Navigate to the '/search' page
+          onClick={() => navigate("/search")}
         >
           <img
             src={searchIcon}

@@ -1,10 +1,17 @@
-import React, { useState, useMemo, useEffect } from "react"
-import { Input } from "../components/input"
-import { Button } from "../components/button"
-import { Badge } from "../components/badge"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/select"
-import { Card, CardContent } from "../components/card"
-import { Search, SlidersHorizontal, Moon, Sun } from "lucide-react"
+import React, { useState, useMemo, useEffect } from "react";
+import { Input } from "../components/Input";
+import { Button } from "../components/Button";
+import { Badge } from "../components/Badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../components/Select";
+import { Card, CardContent } from "../components/Card";
+import { SlidersHorizontal, Moon, Sun } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 // Dummy data for candidates
 const candidates = [
@@ -48,10 +55,10 @@ const candidates = [
     education: "BS Web Development",
     location: "Seattle, WA",
   },
-]
+];
 
 // All unique skills from the candidates
-const allSkills = Array.from(new Set(candidates.flatMap((c) => c.skills)))
+const allSkills = Array.from(new Set(candidates.flatMap((c) => c.skills)));
 
 const SkillsFilter = ({ allSkills, selectedSkills, setSelectedSkills }) => {
   return (
@@ -64,7 +71,11 @@ const SkillsFilter = ({ allSkills, selectedSkills, setSelectedSkills }) => {
             variant={selectedSkills.includes(skill) ? "default" : "outline"}
             className="cursor-pointer"
             onClick={() => {
-              setSelectedSkills((prev) => (prev.includes(skill) ? prev.filter((s) => s !== skill) : [...prev, skill]))
+              setSelectedSkills((prev) =>
+                prev.includes(skill)
+                  ? prev.filter((s) => s !== skill)
+                  : [...prev, skill]
+              );
             }}
           >
             {skill}
@@ -72,57 +83,85 @@ const SkillsFilter = ({ allSkills, selectedSkills, setSelectedSkills }) => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default function SearchPage() {
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedSkills, setSelectedSkills] = useState([])
-  const [sortBy, setSortBy] = useState("name")
-  const [darkMode, setDarkMode] = useState(true)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSkills, setSelectedSkills] = useState([]);
+  const [sortBy, setSortBy] = useState("name");
+  const [darkMode, setDarkMode] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (darkMode) {
-      document.documentElement.classList.add("dark")
+      document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark")
+      document.documentElement.classList.remove("dark");
     }
-  }, [darkMode])
+  }, [darkMode]);
 
   const filteredCandidates = useMemo(() => {
     return candidates
       .filter(
         (candidate) =>
           candidate.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-          (selectedSkills.length === 0 || selectedSkills.every((skill) => candidate.skills.includes(skill))),
+          (selectedSkills.length === 0 ||
+            selectedSkills.every((skill) => candidate.skills.includes(skill)))
       )
       .sort((a, b) => {
         if (sortBy === "name") {
-          return a.name.localeCompare(b.name)
+          return a.name.localeCompare(b.name);
         } else {
-          return b.experience - a.experience
+          return b.experience - a.experience;
         }
-      })
-  }, [searchTerm, selectedSkills, sortBy])
+      });
+  }, [searchTerm, selectedSkills, sortBy]);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-dark text-gray-900 dark:text-gray-100 transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-dark text-gray-900 dark:text-gray-100 transition-colors duration-200 font-labil">
+      <div className="fixed top-12 left-12 z-20">
+        <img
+          src={
+            !darkMode
+              ? "/src/assets/logoBlack.svg"
+              : "/src/assets/logoWhite.svg"
+          }
+          alt="Placeholder"
+          className="w-12 h-auto"
+          onClick={() => navigate("/")}
+        />
+      </div>
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Candidate Search</h1>
-          <Button variant="outline" size="icon" onClick={() => setDarkMode(!darkMode)} aria-label="Toggle dark mode">
-            {darkMode ? <Sun className="h-[1.2rem] w-[1.2rem]" /> : <Moon className="h-[1.2rem] w-[1.2rem]" />}
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? (
+              <Sun className="h-[1.2rem] w-[1.2rem]" />
+            ) : (
+              <Moon className="h-[1.2rem] w-[1.2rem]" />
+            )}
           </Button>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-grow">
-          <Input
+            <Input
               type="text"
               placeholder="Search candidates..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full"
+              style={{
+                outline: "none",
+                boxShadow: "none",
+                outline: "none",
+              }}
             />
           </div>
           <Select onValueChange={(value) => setSortBy(value)}>
@@ -139,15 +178,23 @@ export default function SearchPage() {
           </Button>
         </div>
 
-        <SkillsFilter allSkills={allSkills} selectedSkills={selectedSkills} setSelectedSkills={setSelectedSkills} />
+        <SkillsFilter
+          allSkills={allSkills}
+          selectedSkills={selectedSkills}
+          setSelectedSkills={setSelectedSkills}
+        />
 
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredCandidates.map((candidate) => (
             <Card key={candidate.id} className="bg-white dark:bg-dark-card">
               <CardContent className="p-4">
                 <h3 className="text-lg font-semibold mb-2">{candidate.name}</h3>
-                <p className="text-sm text-gray-600 dark:text-dark-muted mb-2">{candidate.education}</p>
-                <p className="text-sm text-gray-600 dark:text-dark-muted mb-2">{candidate.location}</p>
+                <p className="text-sm text-gray-600 dark:text-dark-muted mb-2">
+                  {candidate.education}
+                </p>
+                <p className="text-sm text-gray-600 dark:text-dark-muted mb-2">
+                  {candidate.location}
+                </p>
                 <p className="text-sm mb-2">
                   <strong>Experience:</strong> {candidate.experience} years
                 </p>
@@ -164,6 +211,5 @@ export default function SearchPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-

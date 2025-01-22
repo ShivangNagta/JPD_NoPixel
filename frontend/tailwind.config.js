@@ -9,29 +9,26 @@ export default {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#fff', // Adjust this to your primary color
-          foreground: '#000', // Adjust this to the text color on primary background
+          DEFAULT: '#ebebeb',
+          foreground: '#000000',
         },
         dark: {
-          DEFAULT: '#0a0a0a', // Near-black dark mode background color
-          foreground: '#ffffff', // White text color for dark mode
-          muted: '#a0aec0', // Muted text color for dark mode
+          DEFAULT: '#0a0a0a',
+          foreground: '#ffffff',
+          muted: '#a0aec0',
           card: '#18181b',
         },
       },
       fontFamily: {
-        nohemi: ['Nohemi', 'sans-serif'],
+        labil: ['LabilGrotesk', 'sans-serif'],
       },
       fontWeight: {
         light: 300,
         normal: 400,
         medium: 500,
-        semibold: 600,
         bold: 700,
-        black: 900,
-      
+      },
     },
-  },
-  plugins: [],
-}
+    plugins: [],
+  }
 }

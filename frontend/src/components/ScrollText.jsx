@@ -34,7 +34,7 @@ export default function ScrollText() {
     <div id="smooth-content" className="relative w-3/5">
       <div
         ref={textRef}
-        className="text-4xl md:text-5xl lg:text-6xl text-white w-full font-medium cursor-default"
+        className="text-4xl md:text-5xl lg:text-6xl text-white w-full font-bold cursor-default"
       >
         {text.split(" ").map((word, index) => (
           <span key={index} className="word inline-block">
