@@ -1,5 +1,4 @@
 import React, { useEffect , useState } from "react";
-import { useParams } from "react-router-dom";
 import { Button } from "../components/button";
 import { Badge } from "../components/badge";
 import { Card, CardContent } from "../components/card";
@@ -8,68 +7,17 @@ import { Moon, Sun, Edit, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import axios from "axios"
 
-// Mock authentication (in a real app, this would be handled by a proper auth system)
-const userType = localStorage.getItem("userType");
+import { useNavigate } from "react-router-dom";
 
 
-const candidates = [
-  {
-    id: 1,
-    name: "Alice Johnson",
-    skills: ["React", "JavaScript", "Node.js"],
-    experience: 5,
-    education: "BS Computer Science",
-    location: "New York, NY",
-    avatar: "/avatars/alice.jpg",
-    description:
-      "Passionate full-stack developer with a focus on React and Node.js. I love building scalable web applications and solving complex problems.",
-    jobHistory: [
-      {
-        title: "Senior Frontend Developer",
-        company: "Tech Corp",
-        period: "2020 - Present",
-      },
-      {
-        title: "Frontend Developer",
-        company: "Web Solutions Inc.",
-        period: "2018 - 2020",
-      },
-      {
-        title: "Junior Developer",
-        company: "Startup XYZ",
-        period: "2016 - 2018",
-      },
-    ],
-  },
-  {
-    id: "2023csb1153@iitrpr.ac.in",
-    name: "Bob Smith",
-    skills: ["Python", "Django", "PostgreSQL"],
-    experience: 3,
-    education: "MS Information Systems",
-    location: "San Francisco, CA",
-    avatar: "/avatars/bob.jpg",
-    description:
-      "Backend developer specializing in Python and Django applications. Passionate about building robust and scalable server-side solutions.",
-    jobHistory: [
-      {
-        title: "Backend Developer",
-        company: "Data Systems Co.",
-        period: "2019 - Present",
-      },
-      {
-        title: "Junior Python Developer",
-        company: "Tech Startups Inc.",
-        period: "2017 - 2019",
-      },
-    ],
-  },
-];
 
 const CandidateProfile = () => {
+  const navigate = useNavigate();
 
   const [candidate, setCandidate] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [canEdit, setCanEdit] = useState(false)
+  const [userType, setUserType] = useState("")
   const { darkMode, toggleDarkMode } = useDarkMode();
 
   const handleSignOut = () => {
@@ -81,6 +29,12 @@ const CandidateProfile = () => {
   useEffect(() => {
     const fetchCandidate = async () => {
       try {
+
+        setUserType(() => localStorage.getItem("userType"))
+        console.log
+        setCanEdit(() => userType === "freelancer")
+        console.log(canEdit)
+
         const token = localStorage.getItem("token");
         const response = await axios.get(`http://localhost:3000/api/freelancer`, {
           headers: {
@@ -99,7 +53,7 @@ const CandidateProfile = () => {
     };
 
     fetchCandidate();
-  }, []);
+  }, [canEdit, userType]);
 
 
 
@@ -131,7 +85,6 @@ const CandidateProfile = () => {
     );
   }
 
-  const canEdit = userType === "freelancer";
 
   return (
     <div
@@ -156,7 +109,7 @@ const CandidateProfile = () => {
             )}
           </Button>
             {canEdit && (
-              <Link to={`/profile/${candidate.id}/edit`}>
+              <Link to={`/profile/edit`}>
                 <Button variant="outline" size="icon">
                   <Edit className="h-[1.2rem] w-[1.2rem]" />
                 </Button>
@@ -261,6 +214,13 @@ const CandidateProfile = () => {
             )}
           </CardContent>
         </Card>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => navigate(`/`)}
+                        >
+                          Back
+                        </Button>
       </div>
     </div>
     

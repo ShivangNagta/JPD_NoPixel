@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../components/button";
 import { Input } from "../components/Input";
@@ -6,6 +6,7 @@ import { Textarea } from "../components/textarea";
 import { Card, CardContent } from "../components/card";
 import { useDarkMode } from "../components/DarkModeContext";
 import { Moon, Sun, Plus, Minus } from "lucide-react";
+import axios from "axios";
 
 const candidates = [
   {
@@ -36,55 +37,55 @@ const candidates = [
       },
     ],
   },
-  {
-    id: 2,
-    name: "Bob Smith",
-    skills: ["Python", "Django", "PostgreSQL"],
-    experience: 3,
-    education: "MS Information Systems",
-    location: "San Francisco, CA",
-    avatar: "/avatars/bob.jpg",
-    description:
-      "Backend developer specializing in Python and Django applications. Passionate about building robust and scalable server-side solutions.",
-    jobHistory: [
-      {
-        title: "Backend Developer",
-        company: "Data Systems Co.",
-        period: "2019 - Present",
-      },
-      {
-        title: "Junior Python Developer",
-        company: "Tech Startups Inc.",
-        period: "2017 - 2019",
-      },
-    ],
-  },
-  // ... (other candidates)
 ];
 
 const CandidateEditPage = () => {
-  const { id } = useParams();
+  const [candidate, setCandidate] = useState(null);
+  const [formData, setFormData] = useState(null); // Initialize as null
   const navigate = useNavigate();
   const { darkMode, toggleDarkMode } = useDarkMode();
-  const candidate = candidates.find((c) => c.id === Number.parseInt(id));
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [formData, setFormData] = useState({
-    name: candidate.name,
-    education: candidate.education,
-    location: candidate.location,
-    experience: candidate.experience,
-    skills: candidate.skills.join(", "),
-    description: candidate.description,
-    jobHistory: candidate.jobHistory.map((job) => ({
-      ...job,
-      fromDate: job.period.split(" - ")[0],
-      toDate:
-        job.period.split(" - ")[1] === "Present"
-          ? ""
-          : job.period.split(" - ")[1],
-    })),
-    profileImage: null,
-  });
+  useEffect(() => {
+    const fetchCandidate = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:3000/api/freelancer`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        const candidate = response.data;
+
+        setCandidate(candidate);
+        setFormData({
+          name: candidate.name,
+          education: candidate.education,
+          location: candidate.location,
+          experience: candidate.experience,
+          skills: candidate.skills.join(", "),
+          description: candidate.description,
+          jobHistory: candidate.jobHistory.map((job) => ({
+            ...job,
+            fromDate: job.period.split(" - ")[0],
+            toDate:
+              job.period.split(" - ")[1] === "Present"
+                ? ""
+                : job.period.split(" - ")[1],
+          })),
+          profileImage: null,
+        });
+        setLoading(false);
+      } catch (err) {
+        console.error("Error fetching candidate:", err);
+        setError("Failed to fetch candidate data.");
+        setLoading(false);
+      }
+    };
+
+    fetchCandidate();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -93,6 +94,19 @@ const CandidateEditPage = () => {
       [name]: value,
     }));
   };
+
+  if (loading) {
+    return <div className="text-center mt-8">Loading candidate data...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center mt-8 text-red-600">{error}</div>;
+  }
+
+  if (!formData) {
+    return <div className="text-center mt-8">Candidate data not available</div>;
+  }
+
 
   const handleJobHistoryChange = (index, field, value) => {
     const updatedJobHistory = [...formData.jobHistory];
@@ -143,11 +157,11 @@ const CandidateEditPage = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the updated data to your backend
+  
+    const token = localStorage.getItem("token");
     const updatedCandidate = {
-      ...candidate,
       ...formData,
       skills: formData.skills.split(",").map((skill) => skill.trim()),
       jobHistory: formData.jobHistory.map((job) => ({
@@ -155,10 +169,37 @@ const CandidateEditPage = () => {
         period: `${job.fromDate} - ${job.toDate || "Present"}`,
       })),
     };
-    console.log("Updated candidate data:", updatedCandidate);
-    // Navigate back to the profile page after submission
-    navigate(`/profile/${id}`);
+  
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", updatedCandidate.name);
+    formDataToSend.append("education", updatedCandidate.education);
+    formDataToSend.append("location", updatedCandidate.location);
+    formDataToSend.append("experience", updatedCandidate.experience);
+    formDataToSend.append("skills", JSON.stringify(updatedCandidate.skills));
+    formDataToSend.append("description", updatedCandidate.description);
+    formDataToSend.append("jobHistory", JSON.stringify(updatedCandidate.jobHistory));
+    if (updatedCandidate.profileImage) {
+      formDataToSend.append("profileImage", updatedCandidate.profileImage);
+    }
+  
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/api/freelancer",
+        formDataToSend,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Update successful:", response.data);
+      navigate("/profile"); 
+    } catch (error) {
+      console.error("Error updating freelancer details:", error);
+    }
   };
+  
 
   if (!candidate) {
     return <div className="text-center mt-8">Candidate not found</div>;
@@ -378,7 +419,7 @@ const CandidateEditPage = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => navigate(`/profile/${id}`)}
+                  onClick={() => navigate(`/profile`)}
                 >
                   Cancel
                 </Button>
