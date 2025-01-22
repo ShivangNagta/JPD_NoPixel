@@ -23,7 +23,6 @@ const StyledWrapper = styled.div`
     width: 8em;
     height: 2.8em;
     line-height: 2.5em;
-    margin: 20px;
     position: relative;
     cursor: pointer;
     overflow: hidden;

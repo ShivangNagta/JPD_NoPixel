@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "../components/button";
-import { Input } from "../components/input";
+import { Input } from "../components/Input";
 import { Textarea } from "../components/textarea";
 import { Card, CardContent } from "../components/card";
 import { useDarkMode } from "../components/DarkModeContext";

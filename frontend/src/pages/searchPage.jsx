@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Input } from "../components/input";
+import { Input } from "../components/Input";
 import { Button } from "../components/button";
 import { Badge } from "../components/badge";
 import {
