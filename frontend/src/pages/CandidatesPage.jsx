@@ -7,10 +7,9 @@ import { useDarkMode } from "../components/DarkModeContext";
 import { Moon, Sun, Edit } from "lucide-react";
 import { Link } from "react-router-dom";
 
-// Mock authentication (in a real app, this would be handled by a proper auth system)
 const isRecruiter = false
 const isCandidate = true
-const currentUserId = 1 // Assuming the logged-in user is candidate with ID 1
+const currentUserId = 1
 
 const candidates = [
   {
@@ -72,7 +71,7 @@ const CandidateProfile = () => {
   const { darkMode, toggleDarkMode } = useDarkMode();
 
   useEffect(() => {
-    setID(localStorage.getItem("userEmail"));
+    setID(localStorage.getItem("userID"));
     console.log(mail);
   }, []);
 

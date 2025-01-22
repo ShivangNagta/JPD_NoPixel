@@ -227,18 +227,6 @@ export default function SearchPage() {
   return (
     <div className={`min-h-screen ${
         darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"} transition-colors duration-200 font-labil`}>
-      <div className="fixed top-8 left-12 z-20 cursor-pointer">
-        <img
-          src={
-            !darkMode
-              ? "/src/assets/logoBlack.svg"
-              : "/src/assets/logoWhite.svg"
-          }
-          alt="Placeholder"
-          className="w-12 h-auto"
-          onClick={() => navigate("/")}
-        />
-      </div>
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Candidate Search</h1>

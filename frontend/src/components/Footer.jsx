@@ -1,10 +1,9 @@
 import React from "react";
 
-const FooterButton = ({ text, link }) => {
+const FooterButton = ({ text }) => {
   return (
     <div>
       <a
-        href={link}
         className="relative text-[#838383] hover:text-black transition-colors duration-300 after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-0 after:h-[2px] after:bg-black after:transition-all after:duration-300 hover:after:w-full font-medium"
       >
         {text}
@@ -31,19 +30,19 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-3xl font-bold cursor-default">About</h3>
             <nav className="flex flex-col space-y-2 text-[#838383] font-semibold text-xl">
-              <FooterButton text="Contact" link="/contact" />
-              <FooterButton text="Blog" link="/blog" />
-              <FooterButton text="Our Story" link="/our-story" />
-              <FooterButton text="Careers" link="/careers" />
+              <FooterButton text="Contact"/>
+              <FooterButton text="Blog"/>
+              <FooterButton text="Our Story"/>
+              <FooterButton text="Careers"/>
             </nav>
           </div>
           <div className="space-y-4">
             <h3 className="text-3xl font-bold cursor-default">Company</h3>
             <nav className="flex flex-col space-y-2 text-[#838383] font-semibold text-xl">
-              <FooterButton text="Press" link="/press" />
-              <FooterButton text="Brand Assets" link="/brand-assets" />
-              <FooterButton text="Terms of Service" link="/terms" />
-              <FooterButton text="Privacy Policy" link="/privacy" />
+              <FooterButton text="Press"/>
+              <FooterButton text="Brand Assets"/>
+              <FooterButton text="Terms of Service"/>
+              <FooterButton text="Privacy Policy"/>
             </nav>
           </div>
         </div>
