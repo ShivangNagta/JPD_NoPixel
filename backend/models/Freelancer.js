@@ -10,6 +10,7 @@ const freelancerSchema = new mongoose.Schema({
   location: { type: String, default: "" },
   avatar: { type: String, default: "" },
   description: { type: String, default: "" },
+  status: { type: String, default: 'pending' }, // Pending approval
   jobHistory: [
     {
       title: { type: String, default: "" },
