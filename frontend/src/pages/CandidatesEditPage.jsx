@@ -76,10 +76,14 @@ const CandidateEditPage = () => {
     skills: candidate.skills.join(", "),
     description: candidate.description,
     jobHistory: candidate.jobHistory.map((job) => ({
-        ...job,
-        fromDate: job.period.split(" - ")[0],
-        toDate: job.period.split(" - ")[1] === "Present" ? "" : job.period.split(" - ")[1],
-      })),
+      ...job,
+      fromDate: job.period.split(" - ")[0],
+      toDate:
+        job.period.split(" - ")[1] === "Present"
+          ? ""
+          : job.period.split(" - ")[1],
+    })),
+    profileImage: null,
   });
 
   const handleChange = (e) => {
@@ -91,41 +95,67 @@ const CandidateEditPage = () => {
   };
 
   const handleJobHistoryChange = (index, field, value) => {
-    const updatedJobHistory = [...formData.jobHistory]
-    updatedJobHistory[index] = { ...updatedJobHistory[index], [field]: value }
+    const updatedJobHistory = [...formData.jobHistory];
+    updatedJobHistory[index] = { ...updatedJobHistory[index], [field]: value };
     setFormData((prevState) => ({
       ...prevState,
       jobHistory: updatedJobHistory,
-    }))
-  }
+    }));
+  };
 
   const addJobHistory = () => {
     setFormData((prevState) => ({
       ...prevState,
-      jobHistory: [...prevState.jobHistory, { title: "", company: "", fromDate: "", toDate: "" }],
-    }))
-  }
+      jobHistory: [
+        ...prevState.jobHistory,
+        { title: "", company: "", fromDate: "", toDate: "" },
+      ],
+    }));
+  };
 
   const removeJobHistory = (index) => {
     setFormData((prevState) => ({
       ...prevState,
       jobHistory: prevState.jobHistory.filter((_, i) => i !== index),
-    }))
-  }
+    }));
+  };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+
+    // Check if a file is selected
+    if (file) {
+      const allowedTypes = ['image/jpeg', 'image/png']; // Allowed MIME types
+
+      // Validate file type
+      if (!allowedTypes.includes(file.type)) {
+        setFormData((prevState) => ({
+          ...prevState,
+          errorMessage: 'Only JPEG and PNG files are allowed.',
+        }));
+        e.target.value = ''; // Reset file input
+      } else {
+        setFormData((prevState) => ({
+          ...prevState,
+          profileImage: file,
+          errorMessage: '', // Clear error if valid file
+        }));
+      }
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically send the updated data to your backend
     const updatedCandidate = {
-        ...candidate,
-        ...formData,
-        skills: formData.skills.split(",").map((skill) => skill.trim()),
-        jobHistory: formData.jobHistory.map((job) => ({
-          ...job,
-          period: `${job.fromDate} - ${job.toDate || "Present"}`,
-        })),
-      }
-      console.log("Updated candidate data:", updatedCandidate)
+      ...candidate,
+      ...formData,
+      skills: formData.skills.split(",").map((skill) => skill.trim()),
+      jobHistory: formData.jobHistory.map((job) => ({
+        ...job,
+        period: `${job.fromDate} - ${job.toDate || "Present"}`,
+      })),
+    };
+    console.log("Updated candidate data:", updatedCandidate);
     // Navigate back to the profile page after submission
     navigate(`/profile/${id}`);
   };
@@ -163,6 +193,26 @@ const CandidateEditPage = () => {
         >
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="profileImage">Profile Image</label>
+                <Input
+                  type="file"
+                  id="profileImage"
+                  name="profileImage"
+                  onChange={handleFileChange}
+                  accept="image/jpeg, image/png"
+                />
+                {formData.profileImage && (
+                  <div>
+                    <p>Selected file: {formData.profileImage.name}</p>
+                    <img
+                      src={URL.createObjectURL(formData.profileImage)}
+                      alt="Profile Preview"
+                      className="mt-2 w-32 h-32 object-cover rounded-full"
+                    />
+                  </div>
+                )}
+              </div>
               <div>
                 <label
                   htmlFor="name"
@@ -256,20 +306,26 @@ const CandidateEditPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Job History</label>
+                <label className="block text-sm font-medium mb-1">
+                  Job History
+                </label>
                 {formData.jobHistory.map((job, index) => (
                   <div key={index} className="mb-4 p-4 border rounded">
                     <Input
                       placeholder="Job Title"
                       value={job.title}
-                      onChange={(e) => handleJobHistoryChange(index, "title", e.target.value)}
+                      onChange={(e) =>
+                        handleJobHistoryChange(index, "title", e.target.value)
+                      }
                       className="mb-2"
                       required
                     />
                     <Input
                       placeholder="Company"
                       value={job.company}
-                      onChange={(e) => handleJobHistoryChange(index, "company", e.target.value)}
+                      onChange={(e) =>
+                        handleJobHistoryChange(index, "company", e.target.value)
+                      }
                       className="mb-2"
                       required
                     />
@@ -278,22 +334,38 @@ const CandidateEditPage = () => {
                         type="text"
                         placeholder="From (YYYY)"
                         value={job.fromDate}
-                        onChange={(e) => handleJobHistoryChange(index, "fromDate", e.target.value)}
+                        onChange={(e) =>
+                          handleJobHistoryChange(
+                            index,
+                            "fromDate",
+                            e.target.value
+                          )
+                        }
                         required
-                        min="1000"  // Ensures the number is at least 4 digits long
-    max="9999"  // Ensures the number is no more than 4 digits
-    pattern="\d{4}"
+                        min="1000" // Ensures the number is at least 4 digits long
+                        max="9999" // Ensures the number is no more than 4 digits
+                        pattern="\d{4}"
                       />
                       <Input
                         type="text"
                         placeholder="To (YYYY or Present)"
                         value={job.toDate}
-                        onChange={(e) => handleJobHistoryChange(index, "toDate", e.target.value)}
+                        onChange={(e) =>
+                          handleJobHistoryChange(
+                            index,
+                            "toDate",
+                            e.target.value
+                          )
+                        }
                         required
                         pattern="(\d{4}|Present)"
                       />
                     </div>
-                    <Button type="button" variant="destructive" onClick={() => removeJobHistory(index)}>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      onClick={() => removeJobHistory(index)}
+                    >
                       <Minus className="mr-2 h-4 w-4" /> Remove Job
                     </Button>
                   </div>

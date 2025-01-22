@@ -9,7 +9,6 @@ import Opportunities from "../components/Opportunities";
 import ScrollAnimation from "../components/ScrollAnimation";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 function Landing() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);

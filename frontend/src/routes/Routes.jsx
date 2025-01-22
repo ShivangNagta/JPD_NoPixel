@@ -6,9 +6,10 @@ import Signup from "../components/Auth/Signup";
 import ClientDashboard from "../components/Client/ClientDashboard";
 import FreelancerDashboard from "../components/Freelancer/FreelancerDashboard";
 import Profile from "../components/profile/profile";
-import SearchPage from '../pages/SearchPage';
+import SearchPage from "../pages/searchPage";
 import Landing from '../pages/Landing';
 import CandidateProfile from '../pages/CandidatesPage';
+import CandidateEditPage from "../pages/CandidatesEditPage";
 
 
 
@@ -22,6 +23,7 @@ const AppRoutes = () => {
       <Route path="/freelancer/dashboard" element={<Landing />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/profile/:id" element={<CandidateProfile />} /> 
+      <Route path="/profile/:id/edit" element={<CandidateEditPage />} />
     </Routes>
   );
 };
