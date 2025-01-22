@@ -120,7 +120,7 @@ export default function SearchPage() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-dark text-gray-900 dark:text-gray-100 transition-colors duration-200 font-labil">
-      <div className="fixed top-12 left-12 z-20">
+      <div className="fixed top-12 left-12 z-20 cursor-pointer">
         <img
           src={
             !darkMode
@@ -160,7 +160,6 @@ export default function SearchPage() {
               style={{
                 outline: "none",
                 boxShadow: "none",
-                outline: "none",
               }}
             />
           </div>

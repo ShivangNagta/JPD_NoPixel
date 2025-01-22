@@ -43,7 +43,7 @@ const ScrollAnimation = () => {
         end: "top -100%",
         scrub: true,
       },
-      width: "95%",
+      width: "90%",
       y: -100,
     });
   }, []);

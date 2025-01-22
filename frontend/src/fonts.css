@@ -1,46 +1,4 @@
 @font-face {
-    font-family: 'Nohemi';
-    src: url('/src/assets/fonts/Nohemi-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Nohemi';
-    src: url('/src/assets/fonts/Nohemi-Bold.woff2') format('woff2');
-    font-weight: bold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Nohemi';
-    src: url('/src/assets/fonts/Nohemi-Black.woff2') format('woff2');
-    font-weight: black;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Nohemi';
-    src: url('/src/assets/fonts/Nohemi-Light.woff2') format('woff2');
-    font-weight: light;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Nohemi';
-    src: url('/src/assets/fonts/Nohemi-SemiBold.woff2') format('woff2');
-    font-weight: semibold;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'Nohemi';
-    src: url('/src/assets/fonts/Nohemi-Medium.woff2') format('woff2');
-    font-weight: medium;
-    font-style: normal;
-}
-
-@font-face {
     font-family: 'LabilGrotesk';
     src: url('/src/assets/fonts/LabilGrotesk-Medium.woff2') format('woff2');
     font-weight: medium;
