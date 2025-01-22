@@ -37,9 +37,9 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-dark-100">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">
+        <h1 className="text-2xl font-bold text-dark-foreground-800 mb-4">
           Login as {userType.charAt(0).toUpperCase() + userType.slice(1)}
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -61,7 +61,7 @@ const Login = () => {
             className="w-full p-3 border border-gray-300 rounded-md"
             required
           />
-          <button type="submit" className="w-full bg-blue-500 text-white py-3 rounded-md">
+          <button type="submit" className="w-full bg-purple-500 text-white py-3 rounded-md">
             Login
           </button>
         </form>

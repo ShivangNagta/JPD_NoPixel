@@ -9,7 +9,7 @@ import Profile from "../components/profile/profile";
 import SearchPage from "../pages/searchPage";
 import Landing from '../pages/Landing';
 import CandidateProfile from '../pages/CandidatesPage';
-import CandidateEditPage from "../pages/CandidatesEditPage";
+import AdminPage from "../components/Admin/AdminDashboard";
 
 
 
@@ -22,7 +22,10 @@ const AppRoutes = () => {
       <Route path="/client/dashboard" element={<Landing />} />
       <Route path="/freelancer/dashboard" element={<Landing />} />
       <Route path="/search" element={<SearchPage />} />
-      <Route path="/profile" element={<CandidateProfile />} /> 
+      {/* <Route path="/profile" element={<CandidateProfile />} />  */}
+      <Route path="/profile/:id" element={<CandidateProfile />} /> 
+      <Route path="/admin" element={<AdminPage />} />
+
     </Routes>
   );
 };
