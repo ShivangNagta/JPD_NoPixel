@@ -126,6 +126,42 @@ app.get("/api/client", authenticateToken, async (req, res) => {
   }
 });
 
+// Fetch all freelancers
+app.get("/api/freelancers", async (req, res) => {
+  try {
+    const freelancers = await Freelancer.find().select("-password"); // Exclude passwords from the response
+    res.json(freelancers);
+  } catch (error) {
+    console.error("Error fetching freelancers:", error);
+    res.status(500).json({ message: "Failed to fetch freelancers" });
+  }
+});
+
+// Route to get freelancer details by ID
+app.get("/api/freelancers/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id)
+
+  try {
+    // Validate MongoDB ObjectId
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ message: "Invalid ID format" });
+    }
+
+    // Fetch the freelancer by ID
+    const freelancer = await Freelancer.findById(id).select("-password"); // Exclude sensitive data like password
+    console.log(freelancer.name)
+    if (!freelancer) {
+      return res.status(404).json({ message: "Freelancer not found" });
+    }
+
+    res.json(freelancer);
+  } catch (error) {
+    console.error("Error fetching freelancer by ID:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 
 
 // Multer configuration for file uploads

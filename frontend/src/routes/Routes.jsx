@@ -11,6 +11,7 @@ import Landing from '../pages/Landing';
 import CandidateProfile from '../pages/CandidatesPage';
 import AdminPage from "../components/Admin/AdminDashboard";
 import CandidateEditPage from "../pages/CandidatesEditPage";
+import CandidateID from "../pages/CandidatesIdPage";
 
 
 
@@ -26,6 +27,7 @@ const AppRoutes = () => {
       <Route path="/profile" element={<CandidateProfile />} /> 
       <Route path="/profile/edit" element={<CandidateEditPage />} /> 
       <Route path="/admin" element={<AdminPage />} />
+      <Route path="/profile/:id" element={<CandidateID />} />
 
     </Routes>
   );

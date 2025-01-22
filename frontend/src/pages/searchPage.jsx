@@ -17,164 +17,36 @@ import userWhite from "../assets/userWhite.svg";
 import userBlack from "../assets/userBlack.svg";
 import logoWhite from "../assets/logoWhite.svg";
 import logoBlack from "../assets/logoBlack.svg";
-
-// Dummy data for candidates
-const candidates = [
-  {
-    id: 1,
-    name: "Alice Johnson",
-    skills: ["React", "JavaScript", "Node.js"],
-    experience: 5,
-    education: "BS Computer Science",
-    location: "New York, NY",
-  },
-  {
-    id: 2,
-    name: "Bob Smith",
-    skills: ["Python", "Django", "PostgreSQL"],
-    experience: 3,
-    education: "MS Information Systems",
-    location: "San Francisco, CA",
-  },
-  {
-    id: 3,
-    name: "Charlie Brown",
-    skills: ["Java", "Spring", "MySQL"],
-    experience: 7,
-    education: "BS Software Engineering",
-    location: "Chicago, IL",
-  },
-  {
-    id: 4,
-    name: "Diana Martinez",
-    skills: ["React", "Redux", "GraphQL"],
-    experience: 4,
-    education: "BS Computer Engineering",
-    location: "Austin, TX",
-  },
-  {
-    id: 5,
-    name: "Ethan Williams",
-    skills: ["Vue.js", "Node.js", "MongoDB"],
-    experience: 2,
-    education: "BS Web Development",
-    location: "Seattle, WA",
-  },
-  {
-    id: 6,
-    name: "Fiona Davis",
-    skills: ["Angular", "TypeScript", "RxJS"],
-    experience: 6,
-    education: "BS Information Technology",
-    location: "Denver, CO",
-  },
-  {
-    id: 7,
-    name: "George Harris",
-    skills: ["C#", ".NET Core", "Azure"],
-    experience: 8,
-    education: "MS Computer Science",
-    location: "Dallas, TX",
-  },
-  {
-    id: 8,
-    name: "Hannah Moore",
-    skills: ["Python", "Flask", "Machine Learning"],
-    experience: 4,
-    education: "BS Data Science",
-    location: "Boston, MA",
-  },
-  {
-    id: 9,
-    name: "Ian Carter",
-    skills: ["JavaScript", "React", "AWS"],
-    experience: 5,
-    education: "BS Computer Science",
-    location: "Portland, OR",
-  },
-  {
-    id: 10,
-    name: "Julia Adams",
-    skills: ["Ruby", "Rails", "PostgreSQL"],
-    experience: 3,
-    education: "BS Software Engineering",
-    location: "Atlanta, GA",
-  },
-  {
-    id: 11,
-    name: "Kevin Thomas",
-    skills: ["Go", "Docker", "Kubernetes"],
-    experience: 6,
-    education: "BS Computer Science",
-    location: "San Jose, CA",
-  },
-  {
-    id: 12,
-    name: "Laura Evans",
-    skills: ["PHP", "Laravel", "MySQL"],
-    experience: 4,
-    education: "BS Web Development",
-    location: "Miami, FL",
-  },
-  {
-    id: 13,
-    name: "Michael Scott",
-    skills: ["JavaScript", "Vue.js", "GraphQL"],
-    experience: 3,
-    education: "BS Information Systems",
-    location: "Philadelphia, PA",
-  },
-  {
-    id: 14,
-    name: "Nina Taylor",
-    skills: ["Python", "Pandas", "Data Analysis"],
-    experience: 2,
-    education: "BS Data Analytics",
-    location: "Los Angeles, CA",
-  },
-  {
-    id: 15,
-    name: "Oscar Perez",
-    skills: ["C++", "OpenGL", "Game Development"],
-    experience: 5,
-    education: "MS Game Design",
-    location: "Las Vegas, NV",
-  },
-];
-
-// All unique skills from the candidates
-const allSkills = Array.from(new Set(candidates.flatMap((c) => c.skills)));
+import axios from "axios";
 
 const SkillsFilter = ({
   allSkills,
   selectedSkills,
   setSelectedSkills,
   isVisible,
-}) => {
-  return (
-    <div className={`mb-6 ${isVisible ? "" : "hidden"}`}>
-      <h2 className="text-lg font-semibold mb-2">Filter by Skills:</h2>
-      <div className="flex flex-wrap gap-2">
-        {allSkills.map((skill) => (
-          <Badge
-            key={skill}
-            variant={selectedSkills.includes(skill) ? "default" : "outline"}
-            className="cursor-pointer"
-            onClick={() => {
-              setSelectedSkills((prev) =>
-                prev.includes(skill)
-                  ? prev.filter((s) => s !== skill)
-                  : [...prev, skill]
-              );
-            }}
-          >
-            {skill}
-          </Badge>
-        ))}
-      </div>
+}) => (
+  <div className={`mb-6 ${isVisible ? "" : "hidden"}`}>
+    <h2 className="text-lg font-semibold mb-2">Filter by Skills:</h2>
+    <div className="flex flex-wrap gap-2">
+      {allSkills.map((skill) => (
+        <Badge
+          key={skill}
+          variant={selectedSkills.includes(skill) ? "default" : "outline"}
+          className="cursor-pointer"
+          onClick={() => {
+            setSelectedSkills((prev) =>
+              prev.includes(skill)
+                ? prev.filter((s) => s !== skill)
+                : [...prev, skill]
+            );
+          }}
+        >
+          {skill}
+        </Badge>
+      ))}
     </div>
-  );
-};
+  </div>
+);
 
 const SelectedSkills = ({ selectedSkills, setSelectedSkills }) => (
   <div className="flex flex-wrap gap-2 mb-4">
@@ -195,6 +67,8 @@ const SelectedSkills = ({ selectedSkills, setSelectedSkills }) => (
 );
 
 export default function SearchPage() {
+  const [candidates, setCandidates] = useState([]);
+  const [allSkills, setAllSkills] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSkills, setSelectedSkills] = useState([]);
   const navigate = useNavigate();
@@ -209,6 +83,29 @@ export default function SearchPage() {
       document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
+
+  useEffect(() => {
+    async function fetchCandidates() {
+      try {
+        const token = localStorage.getItem("token")
+        const response = await axios.get(`http://localhost:3000/api/freelancers`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCandidates(response.data);
+
+        const skills = Array.from(
+          new Set(response.data.flatMap((candidate) => candidate.skills))
+        );
+        setAllSkills(skills);
+      } catch (error) {
+        console.error("Error fetching candidates:", error);
+      }
+    }
+
+    fetchCandidates();
+  }, []);
 
   const filteredCandidates = useMemo(() => {
     return candidates
@@ -225,7 +122,7 @@ export default function SearchPage() {
           return b.experience - a.experience;
         }
       });
-  }, [searchTerm, selectedSkills, sortBy]);
+  }, [searchTerm, selectedSkills, sortBy, candidates]);
 
   return (
     <div
@@ -316,8 +213,8 @@ export default function SearchPage() {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredCandidates.map((candidate) => (
             <Link
-              to={`/profile/${candidate.id}`}
-              key={candidate.id}
+              to={`/profile/${candidate._id}`}
+              key={candidate._id}
               className="no-underline"
             >
               <Card
