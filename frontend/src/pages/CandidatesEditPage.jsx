@@ -8,6 +8,37 @@ import { useDarkMode } from "../components/DarkModeContext";
 import { Moon, Sun, Plus, Minus } from "lucide-react";
 import axios from "axios";
 
+const candidates = [
+  {
+    id: 1,
+    name: "Alice Johnson",
+    skills: ["React", "JavaScript", "Node.js"],
+    experience: 5,
+    education: "BS Computer Science",
+    location: "New York, NY",
+    avatar: "/avatars/alice.jpg",
+    description:
+      "Passionate full-stack developer with a focus on React and Node.js. I love building scalable web applications and solving complex problems.",
+    jobHistory: [
+      {
+        title: "Senior Frontend Developer",
+        company: "Tech Corp",
+        period: "2020 - Present",
+      },
+      {
+        title: "Frontend Developer",
+        company: "Web Solutions Inc.",
+        period: "2018 - 2020",
+      },
+      {
+        title: "Junior Developer",
+        company: "Startup XYZ",
+        period: "2016 - 2018",
+      },
+    ],
+  },
+];
+
 const CandidateEditPage = () => {
   const [candidate, setCandidate] = useState(null);
   const [formData, setFormData] = useState(null); // Initialize as null

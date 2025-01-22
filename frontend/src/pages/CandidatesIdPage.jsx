@@ -17,9 +17,8 @@ const CandidateID = () => {
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     const [candidate, setCandidate] = useState(null);
-    // const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState("");
     const [canEdit, setCanEdit] = useState(false)
     const [userType, setUserType] = useState("")
     const { darkMode, toggleDarkMode } = useDarkMode();
@@ -61,18 +60,44 @@ const CandidateID = () => {
     }, [canEdit, userType]);
 
 
+    const handleHireRequest = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.post(
+                "http://localhost:3000/api/hiring-requests",
+                {
+                    clientId: localStorage.getItem("token"), // Assuming client ID is stored locally
+                    freelancerId: id,
+                    message,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-    // if (loading) {
-    //     return (
-    //         <div
-    //             className={`min-h-screen flex flex-col items-center justify-center text-4xl ${darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"
-    //                 }`}
-    //         >
-    //             <div>Loading candidate data...</div>
+            alert("Hiring request sent successfully!");
+            setMessage(""); // Clear the message field
+        } catch (err) {
+            console.error("Error sending hire request:", err);
+            alert("Failed to send hire request.");
+        }
+    };
 
-    //         </div>
-    //     );
-    // }
+
+
+    if (loading) {
+        return (
+            <div
+                className={`min-h-screen flex flex-col items-center justify-center text-4xl ${darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"
+                    }`}
+            >
+                <div>Loading candidate data...</div>
+
+            </div>
+        );
+    }
 
     if (!candidate) {
         return (
@@ -110,20 +135,6 @@ const CandidateID = () => {
                                 <Moon className="h-[1.2rem] w-[1.2rem]" />
                             )}
                         </Button>
-                        {canEdit && (
-                            <Link to={`/profile/edit`}>
-                                <Button variant="outline" size="icon">
-                                    <Edit className="h-[1.2rem] w-[1.2rem]" />
-                                </Button>
-                            </Link>
-                        )}
-                        {canEdit && (
-                            <Link to={`/`}>
-                                <Button variant="outline" size="icon" onClick={handleSignOut}>
-                                    <LogOut className="h-[1.2rem] w-[1.2rem]" />
-                                </Button>
-                            </Link>
-                        )}
                     </div>
                 </div>
                 <Card
@@ -204,9 +215,25 @@ const CandidateID = () => {
                                 ))}
                             </div>
                         </div>
-
                         {userType === "client" && (
-                            <Button className="w-full">Send Hire Request</Button>
+                            <div className="mt-6">
+                                <h2 className="text-2xl font-semibold mb-2">Send a Hire Request</h2>
+                                <textarea
+                                    className={`w-full p-4 rounded-lg border ${darkMode ? "bg-dark-card text-dark-foreground border-gray-700" : "bg-gray-100 border-gray-300"
+                                        }`}
+                                    placeholder="Write your message to the freelancer..."
+                                    rows="4"
+                                    value={message}
+                                    onChange={(e) => setMessage(e.target.value)}
+                                ></textarea>
+                                <Button
+                                    className="w-full mt-4"
+                                    onClick={handleHireRequest}
+                                    disabled={!message.trim()}
+                                >
+                                    Send Hire Request
+                                </Button>
+                            </div>
                         )}
                     </CardContent>
                 </Card>

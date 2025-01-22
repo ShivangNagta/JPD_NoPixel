@@ -12,6 +12,7 @@ import CandidateProfile from '../pages/CandidatesPage';
 import AdminPage from "../components/Admin/AdminDashboard";
 import CandidateEditPage from "../pages/CandidatesEditPage";
 import CandidateID from "../pages/CandidatesIdPage";
+import FreelancerRequests from "../pages/FreelancerRequests";
 
 
 
@@ -28,6 +29,8 @@ const AppRoutes = () => {
       <Route path="/profile/edit" element={<CandidateEditPage />} /> 
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/profile/:id" element={<CandidateID />} />
+      <Route path="/requests" element={<FreelancerRequests />} />
+
 
     </Routes>
   );

@@ -215,9 +215,6 @@ const CandidateProfile = () => {
               </div>
             </div>
 
-            {userType === "client" && (
-              <Button className="w-full">Send Hire Request</Button>
-            )}
           </CardContent>
         </Card>
         <div className="mt-4">

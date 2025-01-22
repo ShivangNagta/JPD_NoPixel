@@ -1,9 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
-const authRoutes = require("./routes/authRoutes");
 const Client = require("./models/Client");
 const Freelancer = require("./models/Freelancer");
+const HiringRequest = require("./models/HiringRequest")
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
@@ -228,6 +228,124 @@ app.put("/api/client", authenticateToken, async (req, res) => {
     res.status(400).json({ message: "Error updating client", error });
   }
 });
+
+// router.post('/hiring-requests', async (req, res) => {
+//   try {
+//       const { clientId, candidateId, message } = req.body;
+
+//       // Validate required fields
+//       if (!clientId || !candidateId || !message) {
+//           return res.status(400).json({ error: 'All fields are required' });
+//       }
+
+//       // Simulate saving the hiring request
+//       const newRequest = {
+//           id: HiringRequests.length + 1, // Replace with database-generated ID
+//           clientId,
+//           candidateId,
+//           message,
+//           createdAt: new Date(),
+//       };
+//       HiringRequests.push(newRequest);
+
+//       res.status(201).json({ message: 'Hiring request sent successfully', request: newRequest });
+//   } catch (error) {
+//       console.error('Error sending hiring request:', error);
+//       res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+
+
+app.post("/api/hiring-requests", authenticateToken, async (req, res) => {
+  const { clientId, freelancerId, message } = req.body;
+
+  const { userId } = req.user;
+  try {
+    const newRequest = await HiringRequest.create({
+      clientId : userId,
+      freelancerId,
+      message,
+    });
+    res.status(201).json(newRequest);
+  } catch (error) {
+    res.status(500).json({ message: "Error creating request", error });
+  }
+});
+
+
+app.get('/api/hiring-requests', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.user; 
+    console.log('Fetching hiring requests for user:', userId);
+
+    // Query MongoDB to find hiring requests for the freelancer
+    const requests = await HiringRequest.find({ freelancerId: userId });
+    console.log(requests)
+
+    if (!requests || requests.length === 0) {
+      return res.status(404).json({ error: 'No hiring requests found' });
+    }
+
+    res.status(200).json({ requests });
+  } catch (error) {
+    console.error('Error fetching hiring requests:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.post('/api/hiring-requests/:id/accept', authenticateToken, async (req, res) => {
+  try {
+    const requestId = req.params.id;
+
+    // Update the status of the hiring request to 'Accepted'
+    const request = await HiringRequest.findByIdAndUpdate(
+      requestId,
+      { status: 'Accepted' },
+      { new: true }
+    );
+
+    if (!request) {
+      return res.status(404).json({ error: 'Hiring request not found' });
+    }
+
+    res.status(200).json({ message: 'Request accepted successfully', request });
+  } catch (error) {
+    console.error('Error accepting request:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+// Decline a hiring request
+app.post('/api/hiring-requests/:id/decline', authenticateToken, async (req, res) => {
+  try {
+    const requestId = req.params.id;
+
+    // Update the status of the hiring request to 'Declined'
+    const request = await HiringRequest.findByIdAndUpdate(
+      requestId,
+      { status: 'Declined' },
+      { new: true }
+    );
+
+    if (!request) {
+      return res.status(404).json({ error: 'Hiring request not found' });
+    }
+
+    res.status(200).json({ message: 'Request declined successfully', request });
+  } catch (error) {
+    console.error('Error declining request:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
+
+
+
+
+
 
 // Start the server
 const PORT = process.env.PORT || 3000;
