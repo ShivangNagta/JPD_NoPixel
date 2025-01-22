@@ -1,113 +1,110 @@
-import React, { useEffect , useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../components/button";
 import { Badge } from "../components/badge";
 import { Card, CardContent } from "../components/card";
 import { useDarkMode } from "../components/DarkModeContext";
 import { Moon, Sun, Edit, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
-import axios from "axios"
+import userDefault from "../assets/user.png";
+import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
-
-
+// const userType = localStorage.getItem("userType");
 
 const CandidateProfile = () => {
   const navigate = useNavigate();
 
   const [candidate, setCandidate] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [canEdit, setCanEdit] = useState(false)
-  const [userType, setUserType] = useState("")
+  const [canEdit, setCanEdit] = useState(false);
+  const [userType, setUserType] = useState("");
   const { darkMode, toggleDarkMode } = useDarkMode();
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userType");
-    console.log('User signed out');
+    console.log("User signed out");
   };
 
   useEffect(() => {
     const fetchCandidate = async () => {
       try {
-
-        setUserType(() => localStorage.getItem("userType"))
-        console.log
-        setCanEdit(() => userType === "freelancer")
-        console.log(canEdit)
+        setUserType(() => localStorage.getItem("userType"));
+        console.log;
+        setCanEdit(() => userType === "freelancer");
+        console.log(canEdit);
 
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:3000/api/freelancer`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:3000/api/freelancer`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-        const candidate = response.data; 
-        setCandidate(candidate); 
-        setLoading(false); 
+        const candidate = response.data;
+        console.log(candidate);
+        setCandidate(candidate);
+        setLoading(false);
       } catch (err) {
         console.error("Error fetching candidate:", err);
         setError("Failed to fetch candidate data.");
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     fetchCandidate();
   }, [canEdit, userType]);
 
-
-
   if (loading) {
     return (
-        <div
-        className={`min-h-screen flex flex-col items-center justify-center text-4xl ${
+      <div
+        className={`min-h-screen flex flex-col items-center justify-center text-4xl font-labil ${
           darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"
         }`}
       >
         <div>Loading candidate data...</div>
-
       </div>
     );
   }
 
   if (!candidate) {
     return (
-        <div
-        className={`min-h-screen flex flex-col items-center justify-center text-4xl ${
+      <div
+        className={`min-h-screen flex flex-col items-center justify-center text-4xl font-labil gap-4 ${
           darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"
         }`}
       >
         <div>Candidate not found</div>
-        <Button onClick={() => window.history.back()} className="mt-4">
-          Go back
-        </Button>
+        <Button onClick={() => window.history.back()}>Go back</Button>
       </div>
     );
   }
 
-
   return (
     <div
-      className={`min-h-screen ${
+      className={`min-h-screen font-labil ${
         darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"
       } transition-colors duration-200`}
     >
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Candidate Profile</h1>
+          <h1 className="text-3xl font-bold">{`${candidate.name}'s Profile`}</h1>
           <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={toggleDarkMode}
-            aria-label="Toggle dark mode"
-          >
-            {darkMode ? (
-              <Sun className="h-[1.2rem] w-[1.2rem]" />
-            ) : (
-              <Moon className="h-[1.2rem] w-[1.2rem]" />
-            )}
-          </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleDarkMode}
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? (
+                <Sun className="h-[1.2rem] w-[1.2rem]" />
+              ) : (
+                <Moon className="h-[1.2rem] w-[1.2rem]" />
+              )}
+            </Button>
             {canEdit && (
               <Link to={`/profile/edit`}>
                 <Button variant="outline" size="icon">
@@ -117,7 +114,7 @@ const CandidateProfile = () => {
             )}
             {canEdit && (
               <Link to={`/`}>
-                <Button variant="outline" size="icon" onClick={handleSignOut}>
+                <Button variant="outline" size="icon" onClick={handleSignOut} className="bg-purple-500 hover:bg-purple-600 text-white">
                   <LogOut className="h-[1.2rem] w-[1.2rem]" />
                 </Button>
               </Link>
@@ -132,8 +129,17 @@ const CandidateProfile = () => {
           <CardContent className="p-6">
             <div className="flex items-center mb-6">
               <img
-                src={candidate.avatar || "/placeholder.svg"}
+                src={
+                  candidate.avatar
+                    ? `http://localhost:3000/${candidate.avatar.replace(/\\/g, "/")}`
+                    : userDefault
+                }
                 alt={candidate.name}
+                onError={(e) => {
+                  console.log(e);
+                  e.target.onerror = null;
+                  e.target.src = userDefault;
+                }}
                 className="w-24 h-24 rounded-full mr-6"
               />
               <div>
@@ -214,16 +220,13 @@ const CandidateProfile = () => {
             )}
           </CardContent>
         </Card>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={() => navigate(`/`)}
-                        >
-                          Back
-                        </Button>
+        <div className="mt-4">
+          <Button type="button" variant="outline" onClick={() => navigate(`/`)}>
+            Back
+          </Button>
+        </div>
       </div>
     </div>
-    
   );
 };
 

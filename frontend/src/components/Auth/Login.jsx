@@ -39,7 +39,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-dark-100">
+    <div className="min-h-screen flex items-center justify-center bg-dark-100 font-labil">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold text-dark-foreground-800 mb-4">
           Login as {userType.charAt(0).toUpperCase() + userType.slice(1)}

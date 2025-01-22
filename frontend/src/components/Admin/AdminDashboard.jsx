@@ -37,7 +37,7 @@ const AdminPage = () => {
   };
 
   return (
-    <div className="bg-black text-white min-h-screen p-6">
+    <div className="bg-black text-white min-h-screen p-6 font-labil">
       <h1 className="text-3xl font-bold text-purple-500 mb-6">Admin Panel</h1>
       <h2 className="text-2xl mb-4">Freelancers</h2>
       {freelancers.length === 0 ? (

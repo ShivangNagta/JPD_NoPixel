@@ -13,6 +13,10 @@ import { Card, CardContent } from "../components/card";
 import { Search, SlidersHorizontal, Moon, Sun, X } from "lucide-react";
 import { useDarkMode } from "../components/DarkModeContext";
 import { Link, useNavigate } from "react-router-dom";
+import userWhite from "../assets/userWhite.svg";
+import userBlack from "../assets/userBlack.svg";
+import logoWhite from "../assets/logoWhite.svg";
+import logoBlack from "../assets/logoBlack.svg";
 
 // Dummy data for candidates
 const candidates = [
@@ -197,7 +201,6 @@ export default function SearchPage() {
   const [isSkillFilterVisible, setIsSkillFilterVisible] = useState(false);
   const [sortBy, setSortBy] = useState("name");
   const { darkMode, toggleDarkMode } = useDarkMode();
-  // const [darkMode, setDarkMode] = useState(true)
 
   useEffect(() => {
     if (darkMode) {
@@ -225,24 +228,47 @@ export default function SearchPage() {
   }, [searchTerm, selectedSkills, sortBy]);
 
   return (
-    <div className={`min-h-screen ${
-        darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"} transition-colors duration-200 font-labil`}>
+    <div
+      className={`min-h-screen ${
+        darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"
+      } transition-colors duration-200 font-labil`}
+    >
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Candidate Search</h1>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={toggleDarkMode}
-            aria-label="Toggle dark mode"
-          >
-            {darkMode ? (
-              <Sun className="h-[1.2rem] w-[1.2rem]" />
-            ) : (
-              <Moon className="h-[1.2rem] w-[1.2rem]" />
-            )}
-          </Button>
+          <img
+            src={darkMode ? logoWhite : logoBlack}
+            alt="Logo"
+            className="w-12 h-12"
+            onClick={() => navigate("/")}>
+          </img>
+          <div className="flex justify-center gap-4 items-center">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleDarkMode}
+              aria-label="Toggle dark mode"
+            >
+              {darkMode ? (
+                <Sun className="h-[1.2rem] w-[1.2rem]" />
+              ) : (
+                <Moon className="h-[1.2rem] w-[1.2rem]" />
+              )}
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => navigate("/profile")}
+              aria-label="Profile Icon"
+            >
+              <img
+                src={darkMode ? userWhite : userBlack}
+                alt="Profile Icon"
+                className="w-6 h-6"
+              />
+            </Button>
+          </div>
         </div>
+        <h1 className="text-2xl font-bold mb-4">Candidate Search</h1>
 
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-grow">

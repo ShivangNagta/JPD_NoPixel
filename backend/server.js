@@ -7,6 +7,7 @@ const Freelancer = require("./models/Freelancer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
+const path = require('path');
 
 const app = express();
 
@@ -18,6 +19,7 @@ connectDB();
 // Middleware
 app.use(express.json());
 app.use(cors());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 // Middleware to authenticate and decode token

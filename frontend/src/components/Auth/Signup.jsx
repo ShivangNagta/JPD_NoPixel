@@ -88,7 +88,7 @@ const Signup = () => {
   
   return (
     <div 
-    className="min-h-screen flex items-center justify-center bg-dark-100" >
+    className="min-h-screen flex items-center justify-center bg-dark-100 font-labil" >
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold text-gray-800 mb-4">
           Create an Account as {userType.charAt(0).toUpperCase() + userType.slice(1)}

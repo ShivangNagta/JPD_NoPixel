@@ -207,7 +207,7 @@ const CandidateEditPage = () => {
 
   return (
     <div
-      className={`min-h-screen ${
+      className={`min-h-screen font-labil ${
         darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"
       }`}
     >
