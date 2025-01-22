@@ -21,11 +21,10 @@ function Landing() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
     } else {
-      localStorage.removeItem("authToken");
       localStorage.removeItem("userImage");
       setIsLoggedIn(false);
     }

@@ -6,10 +6,11 @@ import { Card, CardContent } from "../components/card";
 import { useDarkMode } from "../components/DarkModeContext";
 import { Moon, Sun, Edit, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import axios from "axios"
 
-const isRecruiter = false
-const isCandidate = true
-const currentUserId = 1
+// Mock authentication (in a real app, this would be handled by a proper auth system)
+const userType = localStorage.getItem("userType");
+
 
 const candidates = [
   {
@@ -66,20 +67,54 @@ const candidates = [
 ];
 
 const CandidateProfile = () => {
-  const [mail , setID] = useState(null);
-  const candidate = candidates.find((c) => c.id == mail);
+
+  const [candidate, setCandidate] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { darkMode, toggleDarkMode } = useDarkMode();
 
   const handleSignOut = () => {
-    localStorage.removeItem("userId");
-    localStorage.removeItem("authToken");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userType");
     console.log('User signed out');
   };
 
   useEffect(() => {
-    setID(localStorage.getItem("userId"));
-    console.log(mail);
+    const fetchCandidate = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await axios.get(`http://localhost:3000/api/freelancer`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const candidate = response.data; 
+        setCandidate(candidate); 
+        setLoading(false); 
+      } catch (err) {
+        console.error("Error fetching candidate:", err);
+        setError("Failed to fetch candidate data.");
+        setLoading(false); 
+      }
+    };
+
+    fetchCandidate();
   }, []);
+
+
+
+  if (loading) {
+    return (
+        <div
+        className={`min-h-screen flex flex-col items-center justify-center text-4xl ${
+          darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"
+        }`}
+      >
+        <div>Loading candidate data...</div>
+
+      </div>
+    );
+  }
 
   if (!candidate) {
     return (
@@ -96,7 +131,7 @@ const CandidateProfile = () => {
     );
   }
 
-  const canEdit = isCandidate && currentUserId === candidate.id;
+  const canEdit = userType === "freelancer";
 
   return (
     <div
@@ -221,13 +256,14 @@ const CandidateProfile = () => {
               </div>
             </div>
 
-            {isRecruiter && (
+            {userType === "client" && (
               <Button className="w-full">Send Hire Request</Button>
             )}
           </CardContent>
         </Card>
       </div>
     </div>
+    
   );
 };
 

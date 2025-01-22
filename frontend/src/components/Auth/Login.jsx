@@ -12,6 +12,8 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -24,8 +26,8 @@ const Login = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem("userID", formData.email);
-        localStorage.setItem("authToken", JSON.stringify(true));
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userType", userType);
         navigate(userType === "client" ? "/client/dashboard" : "/freelancer/dashboard");
       } else {
         alert(data.message || "Login failed");

@@ -75,9 +75,7 @@ const Signup = () => {
       }
   
       if (response.ok) {
-        localStorage.setItem("userID", formData.email);
-        localStorage.setItem("authToken", JSON.stringify(true));
-        navigate(userType === "client" ? "/client/dashboard" : "/freelancer/dashboard");
+        navigate(userType === "client" ? "/login?type=client" : "/login?type=freelancer");
       } else {
         alert(data.message || "Signup failed");
       }
