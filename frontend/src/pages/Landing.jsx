@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { Button } from "../components/button";
+import { Link } from "react-router-dom";
 import ButtonTemplate from "../components/ButtonTemplate";
+import { LogOut } from "lucide-react";
 import Slate from "../components/Slate";
 import CursorFollower from "../components/CursorFollower";
 import Background from "../assets/bg.jpg";
@@ -10,6 +13,7 @@ import ScrollAnimation from "../components/ScrollAnimation";
 import { useNavigate } from "react-router-dom";
 function Landing() {
   const navigate = useNavigate();
+  const [isClient, setIsClient] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [searchIcon, setSearchIcon] = useState("/src/assets/searchWhite.svg");
   const [userIcon, setUserIcon] = useState("/src/assets/userWhite.svg");
@@ -20,8 +24,17 @@ function Landing() {
     else if (type === "freelancer") navigate("/login?type=freelancer");
   };
 
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userType");
+    window.location.reload();
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
+    const type = localStorage.getItem("userType");
+    if (type === "client") setIsClient(true);
+    else setIsClient(false);
     if (token) {
       setIsLoggedIn(true);
     } else {
@@ -62,29 +75,50 @@ function Landing() {
             className="w-8 h-8 transition-colors duration-300"
           />
         </div>
-        {isLoggedIn ? (
-          <div
-            className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] overflow-hidden"
-            onMouseEnter={() =>
-              setUserIcon(userImage || "/src/assets/userBlack.svg")
-            }
-            onMouseLeave={() =>
-              setUserIcon(userImage || "/src/assets/userWhite.svg")
-            }
-            onClick={() => navigate(`/profile`)}
-          >
-            <img
-              src={userImage || userIcon}
-              alt="User"
-              className={`w-${userImage ? 12 : 8} h-${
-                userImage ? 12 : 8
-              } rounded-full object-cover`}
-            />
+        {isLoggedIn || isClient === null ? (
+          <div>
+            {!isClient ? (
+              <div
+                className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] overflow-hidden"
+                onMouseEnter={() =>
+                  setUserIcon(userImage || "/src/assets/userBlack.svg")
+                }
+                onMouseLeave={() =>
+                  setUserIcon(userImage || "/src/assets/userWhite.svg")
+                }
+                onClick={() => navigate(`/profile`)}
+              >
+                <img
+                  src={userImage || userIcon}
+                  alt="User"
+                  className={`w-${userImage ? 12 : 8} h-${
+                    userImage ? 12 : 8
+                  } rounded-full object-cover`}
+                />
+              </div>
+            ) : (
+              <Link to={`/`}>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={handleSignOut}
+                  className="bg-purple-500 hover:bg-purple-600 text-white"
+                >
+                  <LogOut className="h-[1.2rem] w-[1.2rem]" />
+                </Button>
+              </Link>
+            )}
           </div>
         ) : (
           <div className="flex items-center justify-end gap-4">
-            <ButtonTemplate text="User" onClick={() => handleSelection("freelancer")} />
-            <ButtonTemplate text="Client" onClick={() => handleSelection("client")} />
+            <ButtonTemplate
+              text="User"
+              onClick={() => handleSelection("freelancer")}
+            />
+            <ButtonTemplate
+              text="Client"
+              onClick={() => handleSelection("client")}
+            />
           </div>
         )}
       </div>

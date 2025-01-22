@@ -67,6 +67,8 @@ const SelectedSkills = ({ selectedSkills, setSelectedSkills }) => (
 );
 
 export default function SearchPage() {
+  const [isClient, setIsClient] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [candidates, setCandidates] = useState([]);
   const [allSkills, setAllSkills] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -84,15 +86,37 @@ export default function SearchPage() {
     }
   }, [darkMode]);
 
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userType");
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const type = localStorage.getItem("userType");
+    if (type === "client") setIsClient(true);
+    else setIsClient(false);
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      localStorage.removeItem("userImage");
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   useEffect(() => {
     async function fetchCandidates() {
       try {
-        const token = localStorage.getItem("token")
-        const response = await axios.get(`http://localhost:3000/api/freelancers`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const token = localStorage.getItem("token");
+        const response = await axios.get(
+          `http://localhost:3000/api/freelancers`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setCandidates(response.data);
 
         const skills = Array.from(
@@ -131,13 +155,13 @@ export default function SearchPage() {
       } transition-colors duration-200 font-labil`}
     >
       <div className="container mx-auto p-4">
-        <div className="flex justify-between items-center mb-6">
+        <div className="flex justify-between items-center mb-6 cursor-pointer">
           <img
             src={darkMode ? logoWhite : logoBlack}
             alt="Logo"
             className="w-12 h-12"
-            onClick={() => navigate("/")}>
-          </img>
+            onClick={() => navigate("/")}
+          ></img>
           <div className="flex justify-center gap-4 items-center">
             <Button
               variant="outline"
@@ -151,18 +175,20 @@ export default function SearchPage() {
                 <Moon className="h-[1.2rem] w-[1.2rem]" />
               )}
             </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => navigate("/profile")}
-              aria-label="Profile Icon"
-            >
-              <img
-                src={darkMode ? userWhite : userBlack}
-                alt="Profile Icon"
-                className="w-6 h-6"
-              />
-            </Button>
+            {isLoggedIn && !isClient ? (
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => navigate("/profile")}
+                aria-label="Profile Icon"
+              >
+                <img
+                  src={darkMode ? userWhite : userBlack}
+                  alt="Profile Icon"
+                  className="w-6 h-6"
+                />
+              </Button>
+            ) : null}
           </div>
         </div>
         <h1 className="text-2xl font-bold mb-4">Candidate Search</h1>
@@ -210,7 +236,7 @@ export default function SearchPage() {
           isVisible={isSkillFilterVisible}
         />
 
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3" style={{ gridAutoRows: '1fr' }}>
           {filteredCandidates.map((candidate) => (
             <Link
               to={`/profile/${candidate._id}`}
@@ -218,13 +244,13 @@ export default function SearchPage() {
               className="no-underline"
             >
               <Card
-                className={`hover:shadow-lg transition-shadow duration-200 ${
+                className={`hover:shadow-lg transition-shadow duration-200 h-full ${
                   darkMode
                     ? "bg-dark text-dark-foreground shadow-lg hover:shadow-gray-700"
                     : "bg-white shadow-md hover:shadow-lg"
                 }`}
               >
-                <CardContent className="p-4">
+                <CardContent className="p-4 h-full">
                   <h3 className="text-lg font-semibold mb-2">
                     {candidate.name}
                   </h3>

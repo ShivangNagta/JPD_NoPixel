@@ -8,37 +8,6 @@ import { useDarkMode } from "../components/DarkModeContext";
 import { Moon, Sun, Plus, Minus } from "lucide-react";
 import axios from "axios";
 
-const candidates = [
-  {
-    id: 1,
-    name: "Alice Johnson",
-    skills: ["React", "JavaScript", "Node.js"],
-    experience: 5,
-    education: "BS Computer Science",
-    location: "New York, NY",
-    avatar: "/avatars/alice.jpg",
-    description:
-      "Passionate full-stack developer with a focus on React and Node.js. I love building scalable web applications and solving complex problems.",
-    jobHistory: [
-      {
-        title: "Senior Frontend Developer",
-        company: "Tech Corp",
-        period: "2020 - Present",
-      },
-      {
-        title: "Frontend Developer",
-        company: "Web Solutions Inc.",
-        period: "2018 - 2020",
-      },
-      {
-        title: "Junior Developer",
-        company: "Startup XYZ",
-        period: "2016 - 2018",
-      },
-    ],
-  },
-];
-
 const CandidateEditPage = () => {
   const [candidate, setCandidate] = useState(null);
   const [formData, setFormData] = useState(null); // Initialize as null
@@ -136,22 +105,20 @@ const CandidateEditPage = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
 
-    // Check if a file is selected
     if (file) {
-      const allowedTypes = ['image/jpeg', 'image/png']; // Allowed MIME types
+      const allowedTypes = ['image/jpeg', 'image/png'];
 
-      // Validate file type
       if (!allowedTypes.includes(file.type)) {
         setFormData((prevState) => ({
           ...prevState,
           errorMessage: 'Only JPEG and PNG files are allowed.',
         }));
-        e.target.value = ''; // Reset file input
+        e.target.value = '';
       } else {
         setFormData((prevState) => ({
           ...prevState,
           profileImage: file,
-          errorMessage: '', // Clear error if valid file
+          errorMessage: '',
         }));
       }
     }
@@ -159,7 +126,7 @@ const CandidateEditPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const token = localStorage.getItem("token");
     const updatedCandidate = {
       ...formData,
@@ -169,6 +136,30 @@ const CandidateEditPage = () => {
         period: `${job.fromDate} - ${job.toDate || "Present"}`,
       })),
     };
+  
+    const isValidJobHistory = updatedCandidate.jobHistory.every((job) => {
+      const { fromDate, toDate } = job;
+  
+      const fromYear = parseInt(fromDate);
+      const toYear = toDate === "Present" ? new Date().getFullYear() : parseInt(toDate);
+  
+      if (isNaN(fromYear) || (toDate !== "Present" && isNaN(toYear))) {
+        console.error(`Invalid date format for job: ${job.title}`);
+        return false;
+      }
+
+      if (fromYear > toYear) {
+        console.error(`'From' year is greater than 'To' year for job: ${job.title}`);
+        return false;
+      }
+  
+      return true;
+    });
+
+    if (!isValidJobHistory) {
+      alert("Please check the job periods. The 'From' date must be earlier than or equal to the 'To' date.");
+      return;
+    }
   
     const formDataToSend = new FormData();
     formDataToSend.append("name", updatedCandidate.name);
@@ -198,7 +189,7 @@ const CandidateEditPage = () => {
     } catch (error) {
       console.error("Error updating freelancer details:", error);
     }
-  };
+  };  
   
 
   if (!candidate) {
@@ -313,6 +304,7 @@ const CandidateEditPage = () => {
                   value={formData.experience}
                   onChange={handleChange}
                   required
+                  min="0"
                 />
               </div>
               <div>
@@ -383,8 +375,8 @@ const CandidateEditPage = () => {
                           )
                         }
                         required
-                        min="1000" // Ensures the number is at least 4 digits long
-                        max="9999" // Ensures the number is no more than 4 digits
+                        min="1990"
+                        max="2025"
                         pattern="\d{4}"
                       />
                       <Input
@@ -399,6 +391,8 @@ const CandidateEditPage = () => {
                           )
                         }
                         required
+                        min="1990"
+                        max="2025"
                         pattern="(\d{4}|Present)"
                       />
                     </div>
