@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,7 +24,8 @@ const Login = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        alert("Logged in successfully!");
+        localStorage.setItem("userEmail", formData.email);
+        localStorage.setItem("authToken", JSON.stringify(true));
         navigate(userType === "client" ? "/client/dashboard" : "/freelancer/dashboard");
       } else {
         alert(data.message || "Login failed");

@@ -21,7 +21,7 @@ const AppRoutes = () => {
       <Route path="/client/dashboard" element={<Landing />} />
       <Route path="/freelancer/dashboard" element={<Landing />} />
       <Route path="/search" element={<SearchPage />} />
-      <Route path="/profile/:id" element={<CandidateProfile />} /> 
+      <Route path="/profile" element={<CandidateProfile />} /> 
     </Routes>
   );
 };

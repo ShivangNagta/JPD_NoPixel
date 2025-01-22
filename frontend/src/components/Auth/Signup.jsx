@@ -54,7 +54,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/auth/signup/${userType}`, {
+      const response = await fetch(`http://localhost:3000/auth/signup/${userType}`, {
         
         method: "POST",
         headers: {
@@ -74,7 +74,8 @@ const Signup = () => {
       }
   
       if (response.ok) {
-        alert(data.message || "Account created successfully!");
+        localStorage.setItem("userEmail", formData.email);
+        localStorage.setItem("authToken", JSON.stringify(true));
         navigate(userType === "client" ? "/client/dashboard" : "/freelancer/dashboard");
       } else {
         alert(data.message || "Signup failed");

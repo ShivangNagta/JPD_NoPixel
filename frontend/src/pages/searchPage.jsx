@@ -227,7 +227,7 @@ export default function SearchPage() {
   return (
     <div className={`min-h-screen ${
         darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"} transition-colors duration-200 font-labil`}>
-      <div className="fixed top-12 left-12 z-20 cursor-pointer">
+      <div className="fixed top-8 left-12 z-20 cursor-pointer">
         <img
           src={
             !darkMode
@@ -239,11 +239,6 @@ export default function SearchPage() {
           onClick={() => navigate("/")}
         />
       </div>
-    {/* <div
-      className={`min-h-screen ${
-        darkMode ? "bg-dark text-dark-foreground" : "bg-white text-gray-900"
-      } transition-colors duration-200`}
-    > */}
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Candidate Search</h1>

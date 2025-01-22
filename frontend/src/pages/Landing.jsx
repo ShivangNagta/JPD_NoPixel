@@ -8,11 +8,10 @@ import ScrollText from "../components/ScrollText";
 import Opportunities from "../components/Opportunities";
 import ScrollAnimation from "../components/ScrollAnimation";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 function Landing() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [searchIcon, setSearchIcon] = useState("/src/assets/searchWhite.svg");
   const [userIcon, setUserIcon] = useState("/src/assets/userWhite.svg");
   const [userImage, setUserImage] = useState(null);
@@ -25,31 +24,11 @@ function Landing() {
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
-      axios
-        .post(
-          "/api/auth/verify-token",
-          {},
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        )
-        .then((response) => {
-          if (response.data.success) {
-            setIsLoggedIn(true);
-          } else {
-            localStorage.removeItem("authToken");
-            localStorage.removeItem("userImage");
-            setIsLoggedIn(false);
-          }
-        })
-        .catch((error) => {
-          console.error("Error verifying token:", error);
-          localStorage.removeItem("authToken");
-          localStorage.removeItem("userImage");
-          setIsLoggedIn(false);
-        });
+      setIsLoggedIn(true);
+    } else {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("userImage");
+      setIsLoggedIn(false);
     }
   }, []);
 
@@ -87,13 +66,14 @@ function Landing() {
         </div>
         {isLoggedIn ? (
           <div
-            className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] ml-4 overflow-hidden"
+            className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] overflow-hidden"
             onMouseEnter={() =>
               setUserIcon(userImage || "/src/assets/userBlack.svg")
             }
             onMouseLeave={() =>
               setUserIcon(userImage || "/src/assets/userWhite.svg")
             }
+            onClick={() => navigate(`/profile`)}
           >
             <img
               src={userImage || userIcon}

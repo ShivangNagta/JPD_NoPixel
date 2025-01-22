@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect , useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "../components/button";
 import { Badge } from "../components/badge";
@@ -42,7 +42,7 @@ const candidates = [
     ],
   },
   {
-    id: 2,
+    id: "2023csb1153@iitrpr.ac.in",
     name: "Bob Smith",
     skills: ["Python", "Django", "PostgreSQL"],
     experience: 3,
@@ -67,9 +67,14 @@ const candidates = [
 ];
 
 const CandidateProfile = () => {
-  const { id } = useParams();
-  const candidate = candidates.find((c) => c.id === Number.parseInt(id));
+  const [mail , setID] = useState(null);
+  const candidate = candidates.find((c) => c.id == mail);
   const { darkMode, toggleDarkMode } = useDarkMode();
+
+  useEffect(() => {
+    setID(localStorage.getItem("userEmail"));
+    console.log(mail);
+  }, []);
 
   if (!candidate) {
     return (
