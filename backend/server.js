@@ -6,6 +6,7 @@ const Client = require("./models/Client");
 const Freelancer = require("./models/Freelancer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
 
 const app = express();
 
@@ -119,22 +120,51 @@ app.get("/api/client", authenticateToken, async (req, res) => {
   }
 });
 
-// Update Freelancer Details
-app.put("/api/freelancer", authenticateToken, async (req, res) => {
-  const { userId } = req.user;
-  const updateData = req.body;
 
+
+// Multer configuration for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Specify the directory for storing files
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+const upload = multer({ storage });
+
+app.put("/api/freelancer", authenticateToken, upload.single("profileImage"), async (req, res) => {
   try {
-    const updatedFreelancer = await Freelancer.findByIdAndUpdate(userId, updateData, {
-      new: true,
-      runValidators: true,
-    }).select("-password");
 
-    if (!updatedFreelancer) return res.status(404).json({ message: "Freelancer not found" });
+    const { userId } = req.user; 
 
-    res.json(updatedFreelancer);
+    const { name, education, location, experience, skills, description, jobHistory } = req.body;
+
+    const freelancer = await Freelancer.findById(userId);
+  
+    if (!freelancer) return res.status(404).json({ message: "Freelancer not found" });
+
+
+
+    // Update freelancer details
+    freelancer.name = name || freelancer.name;
+    freelancer.education = education || freelancer.education;
+    freelancer.location = location || freelancer.location;
+    freelancer.experience = experience || freelancer.experience;
+    freelancer.skills = skills ? JSON.parse(skills) : freelancer.skills;
+    freelancer.description = description || freelancer.description;
+    freelancer.jobHistory = jobHistory ? JSON.parse(jobHistory) : freelancer.jobHistory;
+
+    // If a new profile image is uploaded, update it
+    if (req.file) {
+      freelancer.avatar = req.file.path; // Save the path to the uploaded file
+    }
+
+    await freelancer.save();
+    res.status(200).json({ message: "Freelancer details updated successfully", freelancer });
   } catch (error) {
-    res.status(400).json({ message: "Error updating freelancer", error });
+    console.error("Error updating freelancer:", error);
+    res.status(500).json({ message: "Failed to update freelancer details" });
   }
 });
 
