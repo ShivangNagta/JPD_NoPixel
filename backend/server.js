@@ -104,6 +104,28 @@ app.post("/auth/signup/client", async (req, res) => {
 });
 
 
+app.put("/api/freelancers/:id", async (req, res) => {
+  const { id } = req.params;
+  const updateData = req.body;
+
+  try {
+    // Update the freelancer document
+    const updatedFreelancer = await Freelancer.findByIdAndUpdate(id, updateData, {
+      new: true, // Return the updated document
+      runValidators: true, // Ensure schema validation
+    });
+
+    if (!updatedFreelancer) {
+      return res.status(404).json({ message: "Freelancer not found" });
+    }
+
+    res.status(200).json(updatedFreelancer);
+  } catch (error) {
+    res.status(400).json({ message: "Error updating freelancer", error });
+  }
+});
+
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
