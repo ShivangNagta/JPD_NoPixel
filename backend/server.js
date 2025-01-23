@@ -341,6 +341,28 @@ app.post('/api/hiring-requests/:id/decline', authenticateToken, async (req, res)
 });
 
 
+// Example route in Express.js
+app.get('/api/hiring-requests/status/:clientId/:freelancerId', async (req, res) => {
+  const { clientId, freelancerId } = req.params;
+
+  console.log(clientId)
+  console.log(freelancerId)
+  try {
+      const request = await HiringRequest.findOne({
+          where: { clientId, freelancerId },
+      });
+      if (request) {
+          res.json({ status: request.status });
+      } else {
+          res.json({ status: "No request sent" });
+      }
+  } catch (error) {
+      console.error(error);
+      res.status(500).send("Error fetching hire request status");
+  }
+});
+
+
 
 
 

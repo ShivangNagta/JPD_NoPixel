@@ -22,6 +22,8 @@ const CandidateID = () => {
     const [canEdit, setCanEdit] = useState(false)
     const [userType, setUserType] = useState("")
     const { darkMode, toggleDarkMode } = useDarkMode();
+    const [hireStatus, setHireStatus] = useState(null);
+
 
     const handleSignOut = () => {
         localStorage.removeItem("token");
@@ -30,6 +32,24 @@ const CandidateID = () => {
     };
 
     useEffect(() => {
+        const fetchHireStatus = async () => {
+            try {
+                const clientId = localStorage.getItem("token");
+                const response = await axios.get(
+                    `http://localhost:3000/api/hiring-requests/status/${clientId}/${id}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                setHireStatus(response.data.status);
+            } catch (error) {
+                console.error("Error fetching hire request status:", error);
+                setHireStatus("Error fetching status");
+            }
+        };
+
         const fetchCandidate = async () => {
             try {
 
@@ -57,7 +77,11 @@ const CandidateID = () => {
         };
 
         fetchCandidate();
-    }, [canEdit, userType]);
+        fetchHireStatus()
+    }, [canEdit, userType, id]);
+
+
+    
 
 
     const handleHireRequest = async () => {
@@ -215,7 +239,11 @@ const CandidateID = () => {
                                 ))}
                             </div>
                         </div>
-                        {userType === "client" && (
+  
+
+                    </CardContent>
+                    <CardContent className="p-6">
+                      {userType === "client" && (
                             <div className="mt-6">
                                 <h2 className="text-2xl font-semibold mb-2">Send a Hire Request</h2>
                                 <textarea
@@ -234,7 +262,18 @@ const CandidateID = () => {
                                     Send Hire Request
                                 </Button>
                             </div>
+            
                         )}
+                        {hireStatus && (
+    <div className="mt-4">
+        <h2 className="text-xl font-semibold">Hire Request Status</h2>
+        <p
+            className={`text-lg ${darkMode ? "text-gray-300" : "text-gray-700"}`}
+        >
+            {hireStatus}
+        </p>
+    </div>
+)}
                     </CardContent>
                 </Card>
                 <Button
