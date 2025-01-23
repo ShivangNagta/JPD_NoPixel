@@ -26,6 +26,9 @@ We have developed a platform to connect job seekers and companies in a seamless 
 
 - **For Job Seekers**:  
   Individuals looking for employment can create a profile and showcase their skills and experience.
+---
+![WhatsApp Image 2025-01-23 at 05 52 14_dd1bf92c](https://github.com/user-attachments/assets/b4263e1e-7253-4322-8061-9672a050d383)
+---
 
 - **For Employers**:  
   Companies can search for suitable candidates, view their profiles, and send job offers.
