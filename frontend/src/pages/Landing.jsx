@@ -5,7 +5,7 @@ import ButtonTemplate from "../components/ButtonTemplate";
 import { LogOut } from "lucide-react";
 import Slate from "../components/Slate";
 import CursorFollower from "../components/CursorFollower";
-import Background from "/assets/bg.jpg";
+import Background from "/bg.jpg";
 import Featured from "../components/Featured";
 import ScrollText from "../components/ScrollText";
 import Opportunities from "../components/Opportunities";
@@ -15,9 +15,9 @@ function Landing() {
   const navigate = useNavigate();
   const [isClient, setIsClient] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [searchIcon, setSearchIcon] = useState("/assets/searchWhite.svg");
-  const [userIcon, setUserIcon] = useState("/assets/userWhite.svg");
-  const [notiIcon, setNotiIcon] = useState("/assets/notificationWhite.svg");
+  const [searchIcon, setSearchIcon] = useState("/searchWhite.svg");
+  const [userIcon, setUserIcon] = useState("/userWhite.svg");
+  const [notiIcon, setNotiIcon] = useState("/notificationWhite.svg");
   const [userImage, setUserImage] = useState(null);
 
   const handleSelection = (type) => {
@@ -58,7 +58,7 @@ function Landing() {
       />
       <div className="fixed top-8 left-12 z-20">
         <img
-          src="/assets/logoWhite.svg"
+          src="/logoWhite.svg"
           alt="Logo"
           className="w-12 h-auto"
         />
@@ -66,8 +66,8 @@ function Landing() {
       <div className="flex items-center justify-end gap-0 z-20 fixed top-8 right-8">
         <div
           className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] mr-4"
-          onMouseEnter={() => setSearchIcon("/assets/searchBlack.svg")}
-          onMouseLeave={() => setSearchIcon("/assets/searchWhite.svg")}
+          onMouseEnter={() => setSearchIcon("/searchBlack.svg")}
+          onMouseLeave={() => setSearchIcon("/searchWhite.svg")}
           onClick={() => navigate("/search")}
         >
           <img
@@ -83,10 +83,10 @@ function Landing() {
                 <div
                   className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] overflow-hidden"
                   onMouseEnter={() =>
-                    setUserIcon(userImage || "/assets/userBlack.svg")
+                    setUserIcon(userImage || "/userBlack.svg")
                   }
                   onMouseLeave={() =>
-                    setUserIcon(userImage || "/assets/userWhite.svg")
+                    setUserIcon(userImage || "/userWhite.svg")
                   }
                   onClick={() => navigate(`/profile`)}
                 >
@@ -101,10 +101,10 @@ function Landing() {
                 <div
                   className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] overflow-hidden"
                   onMouseEnter={() =>
-                    setNotiIcon("/assets/notificationBlack.svg")
+                    setNotiIcon("/notificationBlack.svg")
                   }
                   onMouseLeave={() =>
-                    setNotiIcon("/assets/notificationWhite.svg")
+                    setNotiIcon("/notificationWhite.svg")
                   }
                   onClick={() => navigate(`/requests`)}
                 >

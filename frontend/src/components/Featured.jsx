@@ -2,12 +2,12 @@ import React from "react";
 
 export default function Featured() {
     const companies = [
-        { name: "TechCrunch", image: "/assets/companies/tc.png" },
-        { name: "Forbes", image: "/assets/companies/forbes.png" },
-        { name: "BUSINESS INSIDER", image: "/assets/companies/bi.png" },
-        { name: "On Deck", image: "/assets/companies/ondeck.png" },
-        { name: "THE WALL STREET JOURNAL", image: "/assets/companies/wsj.png" },
-        { name: "CNBC", image: "/assets/companies/cnbc.png" }
+        { name: "TechCrunch", image: "/companies/tc.png" },
+        { name: "Forbes", image: "/companies/forbes.png" },
+        { name: "BUSINESS INSIDER", image: "/companies/bi.png" },
+        { name: "On Deck", image: "/companies/ondeck.png" },
+        { name: "THE WALL STREET JOURNAL", image: "/companies/wsj.png" },
+        { name: "CNBC", image: "/companies/cnbc.png" }
     ];
   
     return (

@@ -32,7 +32,7 @@ export default function Opportunities() {
                     }}
                   >
                     <img
-                      src={`/assets/profiles/pf${i}.jpg`}
+                      src={`/profiles/pf${i}.jpg`}
                       alt={`Team member ${i}`}
                       className="w-full h-full object-cover"
                     />
@@ -64,7 +64,7 @@ export default function Opportunities() {
                   }`}
                 >
                   <video
-                    src="/assets/thumbsup.mp4"
+                    src="/thumbsup.mp4"
                     className="w-full h-full object-cover rounded-xl"
                     autoPlay
                     loop

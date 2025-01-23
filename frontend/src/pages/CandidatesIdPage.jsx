@@ -168,7 +168,7 @@ const CandidateID = () => {
                     <CardContent className="p-6">
                         <div className="flex items-center mb-6">
                             <img
-                                src={candidate.avatar || "/assets/user.png"}
+                                src={candidate.avatar || "/user.png"}
                                 alt={candidate.name}
                                 className="w-24 h-24 rounded-full mr-6"
                             />
