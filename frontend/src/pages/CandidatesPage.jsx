@@ -36,7 +36,7 @@ const CandidateProfile = () => {
 
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:3000/api/freelancer`,
+          `https://jpd-nopixel.onrender.com/api/freelancer`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -131,7 +131,7 @@ const CandidateProfile = () => {
               <img
                 src={
                   candidate.avatar
-                    ? `http://localhost:3000/${candidate.avatar.replace(/\\/g, "/")}`
+                    ? `https://jpd-nopixel.onrender.com/${candidate.avatar.replace(/\\/g, "/")}`
                     : userDefault
                 }
                 alt={candidate.name}

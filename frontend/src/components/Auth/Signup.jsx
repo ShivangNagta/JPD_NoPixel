@@ -55,7 +55,7 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/auth/signup/${userType}`, {
+      const response = await fetch(`https://jpd-nopixel.onrender.com/auth/signup/${userType}`, {
         
         method: "POST",
         headers: {

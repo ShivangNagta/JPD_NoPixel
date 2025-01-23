@@ -51,7 +51,7 @@ const CandidateEditPage = () => {
     const fetchCandidate = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get(`http://localhost:3000/api/freelancer`, {
+        const response = await axios.get(`https://jpd-nopixel.onrender.com/api/freelancer`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -206,7 +206,7 @@ const CandidateEditPage = () => {
   
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/freelancer",
+        "https://jpd-nopixel.onrender.com/api/freelancer",
         formDataToSend,
         {
           headers: {

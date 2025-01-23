@@ -36,7 +36,7 @@ const CandidateID = () => {
             try {
                 const clientId = localStorage.getItem("token");
                 const response = await axios.get(
-                    `http://localhost:3000/api/hiring-requests/status/${clientId}/${id}`,
+                    `https://jpd-nopixel.onrender.com/api/hiring-requests/status/${clientId}/${id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -60,7 +60,7 @@ const CandidateID = () => {
 
                 const token = localStorage.getItem("token");
                 console.log(id)
-                const response = await axios.get(`http://localhost:3000/api/freelancers/${id}`, {
+                const response = await axios.get(`https://jpd-nopixel.onrender.com/api/freelancers/${id}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -88,7 +88,7 @@ const CandidateID = () => {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.post(
-                "http://localhost:3000/api/hiring-requests",
+                "https://jpd-nopixel.onrender.com/api/hiring-requests",
                 {
                     clientId: localStorage.getItem("token"), // Assuming client ID is stored locally
                     freelancerId: id,

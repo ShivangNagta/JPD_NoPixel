@@ -110,7 +110,7 @@ export default function SearchPage() {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:3000/api/freelancers`,
+          `https://jpd-nopixel.onrender.com/api/freelancers`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

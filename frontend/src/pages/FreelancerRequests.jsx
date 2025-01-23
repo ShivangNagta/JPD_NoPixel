@@ -16,7 +16,7 @@ const FreelancerRequests = () => {
       try {
         const token = localStorage.getItem("token");
         const response = await axios.get(
-          `http://localhost:3000/api/hiring-requests`,
+          `https://jpd-nopixel.onrender.com/api/hiring-requests`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ const FreelancerRequests = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `http://localhost:3000/api/hiring-requests/${requestId}/accept`,
+        `https://jpd-nopixel.onrender.com/api/hiring-requests/${requestId}/accept`,
         {},
         {
           headers: {
@@ -64,7 +64,7 @@ const FreelancerRequests = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.post(
-        `http://localhost:3000/api/hiring-requests/${requestId}/decline`,
+        `https://jpd-nopixel.onrender.com/api/hiring-requests/${requestId}/decline`,
         {},
         {
           headers: {
