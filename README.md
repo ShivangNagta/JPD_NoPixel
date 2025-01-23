@@ -15,8 +15,13 @@
    ```bash
    npm run dev
    ```
+3. .env file should have:
+```bash
+   MONGO_URI=your_connnection_string
+JWT_SECRET=your_jwt_secret_key
+   ```
 
-3. Once both servers are running, follow the link provided by the frontend to access the application.
+4. Once both servers are running, follow the link provided by the frontend to access the application.
 
 ---
 
