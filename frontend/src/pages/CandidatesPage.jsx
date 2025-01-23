@@ -5,11 +5,10 @@ import { Card, CardContent } from "../components/card";
 import { useDarkMode } from "../components/DarkModeContext";
 import { Moon, Sun, Edit, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
-import userDefault from "../assets/user.png";
+import userDefault from "/assets/user.png";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
-// const userType = localStorage.getItem("userType");
 
 const CandidateProfile = () => {
   const navigate = useNavigate();

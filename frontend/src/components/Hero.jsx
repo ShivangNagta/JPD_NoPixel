@@ -62,7 +62,7 @@ function Element() {
         }}
       >
         <img
-          src="/src/assets/guitar.jpg"
+          src="/assets/guitar.jpg"
           alt="Guitar"
           className="h-full w-full object-cover z-0"
         />

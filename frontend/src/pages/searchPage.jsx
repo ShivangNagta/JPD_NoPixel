@@ -13,10 +13,10 @@ import { Card, CardContent } from "../components/card";
 import { Search, SlidersHorizontal, Moon, Sun, X } from "lucide-react";
 import { useDarkMode } from "../components/DarkModeContext";
 import { Link, useNavigate } from "react-router-dom";
-import userWhite from "../assets/userWhite.svg";
-import userBlack from "../assets/userBlack.svg";
-import logoWhite from "../assets/logoWhite.svg";
-import logoBlack from "../assets/logoBlack.svg";
+import userWhite from "/assets/userWhite.svg";
+import userBlack from "/assets/userBlack.svg";
+import logoWhite from "/assets/logoWhite.svg";
+import logoBlack from "/assets/logoBlack.svg";
 import axios from "axios";
 
 const SkillsFilter = ({
