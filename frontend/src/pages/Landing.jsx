@@ -17,6 +17,7 @@ function Landing() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [searchIcon, setSearchIcon] = useState("/src/assets/searchWhite.svg");
   const [userIcon, setUserIcon] = useState("/src/assets/userWhite.svg");
+  const [notiIcon, setNotiIcon] = useState("/src/assets/notificationWhite.svg");
   const [userImage, setUserImage] = useState(null);
 
   const handleSelection = (type) => {
@@ -78,23 +79,41 @@ function Landing() {
         {isLoggedIn || isClient === null ? (
           <div>
             {!isClient ? (
-              <div
-                className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] overflow-hidden"
-                onMouseEnter={() =>
-                  setUserIcon(userImage || "/src/assets/userBlack.svg")
-                }
-                onMouseLeave={() =>
-                  setUserIcon(userImage || "/src/assets/userWhite.svg")
-                }
-                onClick={() => navigate(`/profile`)}
-              >
-                <img
-                  src={userImage || userIcon}
-                  alt="User"
-                  className={`w-${userImage ? 12 : 8} h-${
-                    userImage ? 12 : 8
-                  } rounded-full object-cover`}
-                />
+              <div className="flex items-center justify-end gap-4">
+                <div
+                  className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] overflow-hidden"
+                  onMouseEnter={() =>
+                    setUserIcon(userImage || "/src/assets/userBlack.svg")
+                  }
+                  onMouseLeave={() =>
+                    setUserIcon(userImage || "/src/assets/userWhite.svg")
+                  }
+                  onClick={() => navigate(`/profile`)}
+                >
+                  <img
+                    src={userImage || userIcon}
+                    alt="User"
+                    className={`w-${userImage ? 12 : 8} h-${
+                      userImage ? 12 : 8
+                    } rounded-full object-cover`}
+                  />
+                </div>
+                <div
+                  className="relative w-12 h-12 rounded-full flex items-center justify-center transition-colors duration-700 hover:bg-[#A594FD] overflow-hidden"
+                  onMouseEnter={() =>
+                    setNotiIcon("/src/assets/notificationBlack.svg")
+                  }
+                  onMouseLeave={() =>
+                    setNotiIcon("/src/assets/notificationWhite.svg")
+                  }
+                  onClick={() => navigate(`/requests`)}
+                >
+                  <img
+                    src={notiIcon}
+                    alt="Notification"
+                    className={`w-8 h-8 rounded-full object-cover`}
+                  />
+                </div>
               </div>
             ) : (
               <Link to={`/`}>
