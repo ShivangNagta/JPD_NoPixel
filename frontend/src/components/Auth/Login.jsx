@@ -12,8 +12,6 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -36,6 +34,10 @@ const Login = () => {
       console.error(error);
       alert("Error occurred");
     }
+  };
+
+  const handleSignupRedirect = () => {
+    navigate(`/signup?type=${userType}`);
   };
 
   return (
@@ -68,12 +70,12 @@ const Login = () => {
           </button>
         </form>
         <div className="text-center mt-4">
-          <a
-            href={`/signup?type=${userType}`}
+          <button
+            onClick={handleSignupRedirect}
             className="text-blue-500 underline"
           >
             No account? Sign up here
-          </a>
+          </button>
         </div>
       </div>
     </div>

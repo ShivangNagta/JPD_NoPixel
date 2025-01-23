@@ -30,8 +30,6 @@ const AppRoutes = () => {
       <Route path="/admin" element={<AdminPage />} />
       <Route path="/profile/:id" element={<CandidateID />} />
       <Route path="/requests" element={<FreelancerRequests />} />
-
-
     </Routes>
   );
 };

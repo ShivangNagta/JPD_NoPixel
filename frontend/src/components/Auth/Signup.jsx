@@ -17,41 +17,6 @@ const Signup = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await fetch(`http://localhost:5173/auth/signup/${userType}`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-  
-  //     // Check if response is empty or not JSON
-  //     const text = await response.text();
-  //     console.log(text)
-  //     let data = {};
-  //     try {
-  //       data = JSON.parse(text);
-  //     } catch (error) {
-  //       console.log("Failed to parse response as JSON:", error);
-  //     }
-  
-  //     console.log(data);
-  
-  //     if (response.ok) {
-  //       alert("Account created successfully!");
-  //       navigate(userType === "client" ? "/client/dashboard" : "/freelancer/dashboard");
-  //     } else {
-  //       alert(data.message || "Signup failed");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Error occurred");
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
